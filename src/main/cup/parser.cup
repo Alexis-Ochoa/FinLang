@@ -1,0 +1,55 @@
+package main;
+
+import java.util.HashMap;
+import java.util.Map;
+
+// Definición de terminales
+terminal SHOW, EQUALS, PLUS, MINUS, TIMES, DIVIDE, EOL;
+terminal Double NUMBER;
+terminal String ID;
+
+// Definición de no terminales
+non terminal programa, sentencia, expresion;
+
+// Definición de precedencia
+precedence left PLUS, MINUS;
+precedence left TIMES, DIVIDE;
+precedence nonassoc EOL;
+
+// Reglas de la gramática
+programa
+    ::= sentencia programa
+      | /* vacío */ ;
+
+sentencia
+    ::= ID:var EQUALS expresion:E EOL
+         {: tabla.put(var, E); System.out.println("Asignación: " + var + " = " + E); :}
+    | SHOW expresion:E EOL
+         {: System.out.println("Resultado: " + E); :}
+    ;
+
+expresion
+    ::= expresion:E1 PLUS expresion:E2
+         {: RESULT = E1 + E2; :}
+    | expresion:E1 MINUS expresion:E2
+         {: RESULT = E1 - E2; :}
+    | expresion:E1 TIMES expresion:E2
+         {: RESULT = E1 * E2; :}
+    | expresion:E1 DIVIDE expresion:E2
+         {:
+             if (E2 == 0.0) throw new ArithmeticException("División entre cero");
+             RESULT = E1 / E2;
+         :}
+    | NUMBER:n
+         {: RESULT = n; :}
+    | ID:v
+         {:
+             if (!tabla.containsKey(v)) throw new RuntimeException("Variable no definida: " + v);
+             RESULT = tabla.get(v);
+         :}
+    ;
+
+// Código adicional Java
+parser code {:
+    public static Map<String, Double> tabla = new HashMap<>();
+:};
