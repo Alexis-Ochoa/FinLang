@@ -1,55 +1,42 @@
-package main;
+import java_cup.runtime.*;
+import Inventario;
+import java_cup.runtime.Symbol;
 
-import java.util.HashMap;
-import java.util.Map;
+// Definir tokens provenientes del analizador léxico (JFlex)
+terminal String TEXTO;
+terminal String COMANDO;
+terminal Integer NUMERO;
 
-// Definición de terminales
-terminal SHOW, EQUALS, PLUS, MINUS, TIMES, DIVIDE, EOL;
-terminal Double NUMBER;
-terminal String ID;
+// Definir no terminales
+nonterminal programa, comando;
 
-// Definición de no terminales
-non terminal programa, sentencia, expresion;
+// Definir el inicio del análisis sintáctico
+start with programa;
 
-// Definición de precedencia
-precedence left PLUS, MINUS;
-precedence left TIMES, DIVIDE;
-precedence nonassoc EOL;
+// Reglas de producción del lenguaje
+programa ::= comando;
+comando ::= error
+  {:
+    System.err.println("Comando erroneo, verifique la sintaxis del comando");
+  :};
+comando ::= COMANDO:T TEXTO:X NUMERO:N
+  {:
+    if (T.equals("suma")) {
+        System.out.println("🛒 Agregando " + X + " con cantidad " + N);
+        Inventario.agregarProducto(X, N.intValue());
+    } else if (T.equals("vender")) {
+        System.out.println("Se vende " + X + " con el precio " + N);
+        Inventario.venderProducto(X, N.intValue());
+    }
+  :};
+  comando ::= COMANDO:T
+    {:
+      if (T.equals("mostrar_inventario")) {
+          System.out.println("📦 Mostrando inventario...");
+          Inventario.mostrarInventario();
+      } else if (T.equals("generar_reporte")) {
+          System.out.println("📊 Generando reporte de ventas...");
+          Inventario.generReportePDF();
+      }
+    :};
 
-// Reglas de la gramática
-programa
-    ::= sentencia programa
-      | /* vacío */ ;
-
-sentencia
-    ::= ID:var EQUALS expresion:E EOL
-         {: tabla.put(var, E); System.out.println("Asignación: " + var + " = " + E); :}
-    | SHOW expresion:E EOL
-         {: System.out.println("Resultado: " + E); :}
-    ;
-
-expresion
-    ::= expresion:E1 PLUS expresion:E2
-         {: RESULT = E1 + E2; :}
-    | expresion:E1 MINUS expresion:E2
-         {: RESULT = E1 - E2; :}
-    | expresion:E1 TIMES expresion:E2
-         {: RESULT = E1 * E2; :}
-    | expresion:E1 DIVIDE expresion:E2
-         {:
-             if (E2 == 0.0) throw new ArithmeticException("División entre cero");
-             RESULT = E1 / E2;
-         :}
-    | NUMBER:n
-         {: RESULT = n; :}
-    | ID:v
-         {:
-             if (!tabla.containsKey(v)) throw new RuntimeException("Variable no definida: " + v);
-             RESULT = tabla.get(v);
-         :}
-    ;
-
-// Código adicional Java
-parser code {:
-    public static Map<String, Double> tabla = new HashMap<>();
-:};
