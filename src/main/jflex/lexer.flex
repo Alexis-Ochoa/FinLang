@@ -1,6 +1,8 @@
 import java_cup.runtime.Symbol;
+import java_cup.sym;
+
 %%
-%class FinLangLexer
+%class Token
 %unicode
 %cup  // Tokens compatibles con CUP
 /* Declaración de patrones regulares */
@@ -15,22 +17,31 @@ import java_cup.runtime.Symbol;
     }
 %}
 
-/*Expresiones regulares y comandos */
+/*Expresiones regulares y comandos*/
 %%
-"suma"           { return symbol(sym.COMANDO, "suma"); }
+"sumar"           { return symbol(sym.COMANDO, "sumar"); }
 "restar"           { return symbol(sym.COMANDO, "restar"); }
 "multiplicar"            { return symbol(sym.COMANDO, "multiplicar"); }
 "dividir"            { return symbol(sym.COMANDO, "dividir"); }
-"interes"            { return symbol(sym.COMANDO, "interes"); }
-"margen de ganancia" { return symbol(sym.COMANDO, "mostrar_inventario"); }
+"IVA"            { return symbol(sym.COMANDO, "IVA"); }
+"ISR"            { return symbol(sym.COMANDO, "ISR"); }
+"IEPS"            { return symbol(sym.COMANDO, "IEPS"); }
+"ISAN"            { return symbol(sym.COMANDO, "ISAN"); }
+"ISN"            { return symbol(sym.COMANDO, "ISN"); }
+"ISH"            { return symbol(sym.COMANDO, "ISH"); }
+"ISAI"            { return symbol(sym.COMANDO, "ISAI"); }
+"margen_ganancia" { return symbol(sym.COMANDO, "margen_ganancia"); }
 "porcentaje" { return symbol(sym.COMANDO, "porcentaje"); }
 "impuestos" { return symbol(sym.COMANDO, "impuestos"); }
 
-\"[^\"]*\"          { return symbol(sym.TEXTO, yytext().replace("\"", "")); }  // Texto entre comillas
-[0-9]+              { return symbol(sym.NUMERO, Integer.parseInt(yytext())); }  // Números enteros
+/*Simbolos*/
+","         {return symbol(sym.COMA);}
+"("         {return symbol(sym.LBRACKET);}
+")"         {return symbol(sym.RBRACKET);}
+";"         {return symbol(sym.SEMIC);}
+
+//Numeros que acepta
+[0-9]+(\.[0-9]+)?   { return symbol(sym.NUMERO, Double.parseDouble(yytext())); }  // Números decimales
 
 [ \t\r\n\f]+        { /* Ignorar espacios en blanco */ }
-. {
-    System.err.println("Error léxico: Carácter no reconocido '" + yytext() + "' en línea " + yyline + ", columna " + yycolumn);
-    return symbol(sym.error); // Retorna token especial de error
-}
+. {return symbol(sym.error);} // Retorna token especial de error}

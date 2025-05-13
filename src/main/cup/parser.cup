@@ -1,5 +1,5 @@
 import java_cup.runtime.*;
-import Inventario;
+import Operations;
 import java_cup.runtime.Symbol;
 
 // Definir tokens provenientes del analizador léxico (JFlex)
@@ -19,7 +19,8 @@ comando ::= error
   {:
     System.err.println("Comando erroneo, verifique la sintaxis del comando");
   :};
-comando ::= COMANDO:T TEXTO:X NUMERO:N
+  //Aquí va la estructura, en este caso debe de recibir un comando, luego un número y luego otro para que lo acepte, caso contrario será incorrecto
+comando ::= COMANDO:T NUMERO:N NUMERO:N
   {:
     if (T.equals("suma")) {
         System.out.println("🛒 Agregando " + X + " con cantidad " + N);
