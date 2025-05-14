@@ -3,8 +3,11 @@ import Operations;
 import java_cup.runtime.Symbol;
 
 // Definir tokens provenientes del analizador léxico (JFlex)
-terminal String TEXTO;
 terminal String COMANDO;
+terminal Char COMA;
+terminal Char RBRACKET;
+terminal Char LBRACKET;
+terminal Char SEMIC;
 terminal Integer NUMERO;
 
 // Definir no terminales
@@ -20,24 +23,42 @@ comando ::= error
     System.err.println("Comando erroneo, verifique la sintaxis del comando");
   :};
   //Aquí va la estructura, en este caso debe de recibir un comando, luego un número y luego otro para que lo acepte, caso contrario será incorrecto
-comando ::= COMANDO:T NUMERO:N NUMERO:N
-  {:
-    if (T.equals("suma")) {
-        System.out.println("🛒 Agregando " + X + " con cantidad " + N);
-        Inventario.agregarProducto(X, N.intValue());
-    } else if (T.equals("vender")) {
-        System.out.println("Se vende " + X + " con el precio " + N);
-        Inventario.venderProducto(X, N.intValue());
-    }
-  :};
-  comando ::= COMANDO:T
+comando ::= COMANDO:CMD LBRACKET array_numbers:NUM RBRACKET SEMIC
     {:
-      if (T.equals("mostrar_inventario")) {
-          System.out.println("📦 Mostrando inventario...");
-          Inventario.mostrarInventario();
-      } else if (T.equals("generar_reporte")) {
-          System.out.println("📊 Generando reporte de ventas...");
-          Inventario.generReportePDF();
-      }
+        if (CMD.equals("sumar")){
+            Operations.plus(NUM);
+        }if (CMD.equals("restar")){
+            Operations.minus(NUM);
+        }if (CMD.equals("multiplicar")){
+            Operations.times(NUM);
+        }if (CMD.equals("dividir")){
+            Operations.divide(NUM);
+        }
+    :};
+comando ::= COMANDO:CMD LBRACKET NUMERO:X RBRACKET SEMIC
+    {:
+        if (CMD.equals("IVA")){
+            Operations.iva(X);
+        }
+        if (CMD.equals("ISN")){
+            Operations.isn(X);
+        }
+        if (CMD.equals("ISH")){
+            Operations.ish(X);
+        }
+    :};
+comando ::= COMANDO:CMD LBRACKET NUMERO:NUMBER NUMERO:PERCENTAGE RBRACKET SEMIC
+    {:
+        if (CMD.equals("porcentaje")){
+            Operations.percentage(NUMERO, PERCENTAGE);
+        }
     :};
 
+array_numbers ::= NUMERO:N
+    {:
+        RESULT = new ArrayList<Double>(); RESULT.add(N);
+    :} | array_numbers:NUMS COMA NUMERO:N
+    {:
+        NUMS.add(N);
+        RESULT = NUMS;
+    :};

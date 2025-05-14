@@ -1,5 +1,3 @@
-package org.example;
-
 import java_cup.Lexer;
 import java_cup.parser;
 

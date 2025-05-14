@@ -2,7 +2,7 @@ import java_cup.runtime.Symbol;
 import java_cup.sym;
 
 %%
-%class Token
+%class FinLangLexer
 %unicode
 %cup  // Tokens compatibles con CUP
 /* Declaración de patrones regulares */
@@ -25,14 +25,12 @@ import java_cup.sym;
 "dividir"            { return symbol(sym.COMANDO, "dividir"); }
 "IVA"            { return symbol(sym.COMANDO, "IVA"); }
 "ISR"            { return symbol(sym.COMANDO, "ISR"); }
-"IEPS"            { return symbol(sym.COMANDO, "IEPS"); }
 "ISAN"            { return symbol(sym.COMANDO, "ISAN"); }
 "ISN"            { return symbol(sym.COMANDO, "ISN"); }
 "ISH"            { return symbol(sym.COMANDO, "ISH"); }
 "ISAI"            { return symbol(sym.COMANDO, "ISAI"); }
 "margen_ganancia" { return symbol(sym.COMANDO, "margen_ganancia"); }
 "porcentaje" { return symbol(sym.COMANDO, "porcentaje"); }
-"impuestos" { return symbol(sym.COMANDO, "impuestos"); }
 
 /*Simbolos*/
 ","         {return symbol(sym.COMA);}
