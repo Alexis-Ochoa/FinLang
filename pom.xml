@@ -48,7 +48,7 @@
                         <configuration>
                             <cupDefinition>src/main/cup/parser.cup</cupDefinition>
                             <className>Parser</className>
-                            <symbolsName>Sym</symbolsName>
+                            <symbolsName>sym</symbolsName>
                             <outputDirectory>${project.build.directory}/generated-sources/cup</outputDirectory>
                             <packageName>main</packageName>
                         </configuration>
@@ -92,7 +92,7 @@
                         <configuration>
                             <cupDefinition>src/main/cup/parser.cup</cupDefinition>
                             <className>Parser</className>
-                            <symbolsName>Sym</symbolsName>
+                            <symbolsName>sym</symbolsName>
                             <outputDirectory>${project.build.directory}/generated-sources/cup</outputDirectory>
                         </configuration>
                     </execution>

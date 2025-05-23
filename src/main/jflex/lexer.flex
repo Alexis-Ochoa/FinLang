@@ -1,45 +1,59 @@
 import java_cup.runtime.Symbol;
+import java_cup.runtime.ComplexSymbolFactory;
+import java_cup.runtime.ComplexSymbolFactory.Location;
 import java_cup.sym;
 
 %%
 %class FinLangLexer
 %unicode
-%cup  // Tokens compatibles con CUP
-/* Declaración de patrones regulares */
+%cup
+%line
+%column
+
 %{
-    // Método auxiliar para devolver tokens
+    private ComplexSymbolFactory symbolFactory = new ComplexSymbolFactory();
+
     private Symbol symbol(int type) {
-        return new Symbol(type, yyline, yycolumn);
+        return symbolFactory.newSymbol(sym.terminalNames[type], type,
+            new Location(yyline+1, yycolumn+1),
+            new Location(yyline+1, yycolumn+yylength()));
     }
 
     private Symbol symbol(int type, Object value) {
-        return new Symbol(type, yyline, yycolumn, value);
+        return symbolFactory.newSymbol(sym.terminalNames[type], type,
+            new Location(yyline+1, yycolumn+1),
+            new Location(yyline+1, yycolumn+yylength()), value);
     }
 %}
 
-/*Expresiones regulares y comandos*/
+WhiteSpace = [ \t\r\n\f]
+
 %%
-"sumar"           { return symbol(sym.COMANDO, "sumar"); }
-"restar"           { return symbol(sym.COMANDO, "restar"); }
-"multiplicar"            { return symbol(sym.COMANDO, "multiplicar"); }
-"dividir"            { return symbol(sym.COMANDO, "dividir"); }
-"IVA"            { return symbol(sym.COMANDO, "IVA"); }
-"ISR"            { return symbol(sym.COMANDO, "ISR"); }
-"ISAN"            { return symbol(sym.COMANDO, "ISAN"); }
-"ISN"            { return symbol(sym.COMANDO, "ISN"); }
-"ISH"            { return symbol(sym.COMANDO, "ISH"); }
-"ISAI"            { return symbol(sym.COMANDO, "ISAI"); }
-"margen_ganancia" { return symbol(sym.COMANDO, "margen_ganancia"); }
-"porcentaje" { return symbol(sym.COMANDO, "porcentaje"); }
 
-/*Simbolos*/
-","         {return symbol(sym.COMA);}
-"("         {return symbol(sym.LBRACKET);}
-")"         {return symbol(sym.RBRACKET);}
-";"         {return symbol(sym.SEMIC);}
+/* Comandos - ahora permitimos espacios después del comando */
+"sumar"{WhiteSpace}*    { return symbol(sym.COMANDO, "sumar"); }
+"restar"{WhiteSpace}*   { return symbol(sym.COMANDO, "restar"); }
+"multiplicar"{WhiteSpace}* { return symbol(sym.COMANDO, "multiplicar"); }
+"dividir"{WhiteSpace}*  { return symbol(sym.COMANDO, "dividir"); }
+"IVA"{WhiteSpace}*      { return symbol(sym.COMANDO, "IVA"); }
+"ISR"{WhiteSpace}*      { return symbol(sym.COMANDO, "ISR"); }
+"ISAN"{WhiteSpace}*     { return symbol(sym.COMANDO, "ISAN"); }
+"ISN"{WhiteSpace}*      { return symbol(sym.COMANDO, "ISN"); }
+"ISH"{WhiteSpace}*      { return symbol(sym.COMANDO, "ISH"); }
+"ISAI"{WhiteSpace}*     { return symbol(sym.COMANDO, "ISAI"); }
+"margen_ganancia"{WhiteSpace}* { return symbol(sym.COMANDO, "margen_ganancia"); }
+"porcentaje"{WhiteSpace}* { return symbol(sym.COMANDO, "porcentaje"); }
 
-//Numeros que acepta
-[0-9]+(\.[0-9]+)?   { return symbol(sym.NUMERO, Double.parseDouble(yytext())); }  // Números decimales
+/* Símbolos */
+"("               { return symbol(sym.LBRACKET); }
+")"               { return symbol(sym.RBRACKET); }
+","               { return symbol(sym.COMA); }
+";"               { return symbol(sym.SEMIC); }
 
-[ \t\r\n\f]+        { /* Ignorar espacios en blanco */ }
-. {return symbol(sym.error);} // Retorna token especial de error}
+/* Números */
+[0-9]+("."[0-9]+)? { return symbol(sym.NUMERO, Double.parseDouble(yytext())); }
+
+{WhiteSpace}      { /* ignorar espacios en blanco */ }
+
+/* Error - cualquier otro carácter */
+.                 { return symbol(sym.error); }

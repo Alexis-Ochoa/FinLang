@@ -1,64 +1,69 @@
 import java_cup.runtime.*;
-import Operations;
-import java_cup.runtime.Symbol;
+import java.util.ArrayList;
 
-// Definir tokens provenientes del analizador léxico (JFlex)
+/* Terminales */
 terminal String COMANDO;
-terminal Char COMA;
-terminal Char RBRACKET;
-terminal Char LBRACKET;
-terminal Char SEMIC;
-terminal Integer NUMERO;
+terminal String COMA;
+terminal String LBRACKET;
+terminal String RBRACKET;
+terminal String SEMIC;
+terminal Double NUMERO;
 
-// Definir no terminales
-nonterminal programa, comando;
+/* No terminales */
+nonterminal Object programa;
+nonterminal Object comando;
+nonterminal ArrayList<Double> numero_o_lista;
 
-// Definir el inicio del análisis sintáctico
+/* Precedencias y asociatividad */
+precedence left COMA;
+precedence left NUMERO;
+
+/* Eliminar sensibilidad a espacios */
+precedence left COMANDO, LBRACKET;
+
 start with programa;
 
-// Reglas de producción del lenguaje
-programa ::= comando;
-comando ::= error
-  {:
-    System.err.println("Comando erroneo, verifique la sintaxis del comando");
-  :};
-  //Aquí va la estructura, en este caso debe de recibir un comando, luego un número y luego otro para que lo acepte, caso contrario será incorrecto
-comando ::= COMANDO:CMD LBRACKET array_numbers:NUM RBRACKET SEMIC
+programa ::= comando
     {:
-        if (CMD.equals("sumar")){
-            Operations.plus(NUM);
-        }if (CMD.equals("restar")){
-            Operations.minus(NUM);
-        }if (CMD.equals("multiplicar")){
-            Operations.times(NUM);
-        }if (CMD.equals("dividir")){
-            Operations.divide(NUM);
-        }
-    :};
-comando ::= COMANDO:CMD LBRACKET NUMERO:X RBRACKET SEMIC
-    {:
-        if (CMD.equals("IVA")){
-            Operations.iva(X);
-        }
-        if (CMD.equals("ISN")){
-            Operations.isn(X);
-        }
-        if (CMD.equals("ISH")){
-            Operations.ish(X);
-        }
-    :};
-comando ::= COMANDO:CMD LBRACKET NUMERO:NUMBER NUMERO:PERCENTAGE RBRACKET SEMIC
-    {:
-        if (CMD.equals("porcentaje")){
-            Operations.percentage(NUMERO, PERCENTAGE);
-        }
-    :};
+        RESULT = Boolean.TRUE;
+    :}
+;
 
-array_numbers ::= NUMERO:N
+comando ::=
+    /* Comandos aritméticos (lista de números) */
+    COMANDO:cmd LBRACKET numero_o_lista:nums RBRACKET SEMIC
     {:
-        RESULT = new ArrayList<Double>(); RESULT.add(N);
-    :} | array_numbers:NUMS COMA NUMERO:N
+        boolean result = false;
+        switch (cmd.trim()) {
+            case "sumar": result = Operations.plus(nums); break;
+            case "restar": result = Operations.minus(nums); break;
+            case "multiplicar": result = Operations.times(nums); break;
+            case "dividir": result = Operations.divide(nums); break;
+            case "IVA": result = Operations.iva(nums.get(0)); break;
+            case "ISN": result = Operations.isn(nums.get(0)); break;
+            case "ISH": result = Operations.ish(nums.get(0)); break;
+            case "ISR": result = Operations.isr(nums.get(0)); break;
+            case "ISAN": result = Operations.isan(nums.get(0)); break;
+            case "ISAI": result = Operations.isai(nums.get(0)); break;
+            case "porcentaje": result = Operations.percentage(nums.get(0), nums.get(1)); break;
+            case "margen_ganancia": result = Operations.margen_ganancia(nums.get(0), nums.get(1)); break;
+            default: System.err.println("Comando no reconocido: " + cmd);
+        }
+        RESULT = Boolean.TRUE;
+    :}
+;
+
+numero_o_lista ::=
+    NUMERO:n
     {:
-        NUMS.add(N);
-        RESULT = NUMS;
-    :};
+        ArrayList<Double> lista = new ArrayList<>();
+        lista.add(n);
+        RESULT = lista;
+    :}
+    |
+    numero_o_lista:lista COMA NUMERO:n
+    {:
+        lista.add(n);
+        RESULT = lista;
+    :}
+;
