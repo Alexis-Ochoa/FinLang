@@ -60,7 +60,7 @@ public class Operations {
     public static boolean iva(double amount){
         double taxes = amount * 0.16;
         double total = taxes+amount;
-        System.out.println("El IVA de " + amount + "son " + taxes + ". Dando un total de "+ total);
+        System.out.println("El IVA de " + amount + " son " + taxes + ". Dando un total de "+ total);
         return true;
     }
 
@@ -87,7 +87,7 @@ public class Operations {
 
             if (salary >= limiteInferior && salary <= limiteSuperior) {
                 double excedente = salary - limiteInferior;
-                System.out.println("El ISR para" + salary + "es " + cuotaFija + (excedente * (porcentajeExcedente / 100)));
+                System.out.println("El ISR para " + salary + " es " + (cuotaFija + (excedente * (porcentajeExcedente / 100))));
                 return true;
             }
         }
@@ -123,7 +123,7 @@ public class Operations {
             double descuento = (price - 1023744.62) * 0.07;
             impuesto -= descuento;
         }
-        System.out.println("El ISAN del vehículo que costó $" + price + "es " + impuesto);
+        System.out.println("El ISAN del vehículo que costó $" + price + " es " + impuesto);
         return true;
     }
 
@@ -150,7 +150,7 @@ public class Operations {
 
             if (maxValue >= limiteInferior && maxValue <= limiteSuperior) {
                 double excedente = maxValue - limiteInferior;
-                System.out.println("El ISAI de " + maxValue + "es " + cuotaFija + (excedente * factor));
+                System.out.println("El ISAI de " + maxValue + " es " + (cuotaFija + (excedente * factor)));
                 return true;
             }
         }
@@ -160,14 +160,14 @@ public class Operations {
     public static boolean isn(double amount){
         double taxes = amount * 0.03;
         double total = taxes+amount;
-        System.out.println("El ISN de " + amount + "son " + taxes + ". Dando un total de " + total);
+        System.out.println("El ISN de " + amount + " son " + taxes + ". Dando un total de " + total);
         return true;
     }
 
     public static boolean ish(double amount){
         double taxes = amount * 0.03;
         double total = taxes+amount;
-        System.out.println("El ISH de " + amount + "son " + taxes + ". Dando un total de " + total);
+        System.out.println("El ISH de " + amount + " son " + taxes + ". Dando un total de " + total);
         return true;
     }
 

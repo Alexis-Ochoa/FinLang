@@ -1,6 +1,19 @@
 import java_cup.runtime.*;
 import java.util.ArrayList;
 
+parser code {:
+  @Override
+  public void report_error(String message, Object info) {
+    System.out.println("❌ Error: Comando con formato inválido.");
+  }
+
+  @Override
+  public void report_fatal_error(String message, Object info) {
+    System.out.println("❌ Error fatal: No se puede continuar con el análisis.");
+    throw new RuntimeException(message);
+  }
+:}
+
 /* Terminales */
 terminal String COMANDO;
 terminal String COMA;
@@ -12,56 +25,103 @@ terminal Double NUMERO;
 /* No terminales */
 nonterminal Object programa;
 nonterminal Object comando;
-nonterminal ArrayList<Double> numero_o_lista;
+nonterminal ArrayList<Double> lista_numeros;
 
-/* Precedencias y asociatividad */
+/* Precedencias */
 precedence left COMA;
 precedence left NUMERO;
-
-/* Eliminar sensibilidad a espacios */
 precedence left COMANDO, LBRACKET;
 
 start with programa;
 
-programa ::= comando
-    {:
-        RESULT = Boolean.TRUE;
-    :}
-;
+
+programa ::= comando;
 
 comando ::=
-    /* Comandos aritméticos (lista de números) */
-    COMANDO:cmd LBRACKET numero_o_lista:nums RBRACKET SEMIC
+    COMANDO:cmd LBRACKET lista_numeros:nums RBRACKET SEMIC
     {:
-        boolean result = false;
-        switch (cmd.trim()) {
-            case "sumar": result = Operations.plus(nums); break;
-            case "restar": result = Operations.minus(nums); break;
-            case "multiplicar": result = Operations.times(nums); break;
-            case "dividir": result = Operations.divide(nums); break;
-            case "IVA": result = Operations.iva(nums.get(0)); break;
-            case "ISN": result = Operations.isn(nums.get(0)); break;
-            case "ISH": result = Operations.ish(nums.get(0)); break;
-            case "ISR": result = Operations.isr(nums.get(0)); break;
-            case "ISAN": result = Operations.isan(nums.get(0)); break;
-            case "ISAI": result = Operations.isai(nums.get(0)); break;
-            case "porcentaje": result = Operations.percentage(nums.get(0), nums.get(1)); break;
-            case "margen_ganancia": result = Operations.margen_ganancia(nums.get(0), nums.get(1)); break;
-            default: System.err.println("Comando no reconocido: " + cmd);
+        String output = "";
+        try {
+            switch (cmd.trim()) {
+                case "sumar":
+                    output = "La suma es " + Operations.plus(nums);
+                    break;
+                case "restar":
+                    output = "La resta es " + Operations.minus(nums);
+                    break;
+                case "multiplicar":
+                    output = "El producto es " + Operations.times(nums);
+                    break;
+                case "dividir":
+                    output = "El cociente es " + Operations.divide(nums);
+                    break;
+                case "porcentaje":
+                    if (nums.size() >= 2)
+                        output = "El porcentaje es " + Operations.percentage(nums.get(0), nums.get(1));
+                    else
+                        output = "Se requieren dos números para porcentaje";
+                    break;
+                case "margen_ganancia":
+                    if (nums.size() >= 2)
+                        output = "El margen de ganancia es " + Operations.margen_ganancia(nums.get(0), nums.get(1));
+                    else
+                        output = "Se requieren dos números para margen_ganancia";
+                    break;
+                case "IVA":
+                    if (nums.size() >= 1)
+                        output = "IVA calculado: " + Operations.iva(nums.get(0));
+                    else
+                        output = "Se requiere un número para IVA";
+                    break;
+                case "ISR":
+                    if (nums.size() >= 1)
+                        output = "ISR calculado: " + Operations.isr(nums.get(0));
+                    else
+                        output = "Se requiere un número para ISR";
+                    break;
+                case "ISN":
+                    if (nums.size() >= 1)
+                        output = "ISN calculado: " + Operations.isn(nums.get(0));
+                    else
+                        output = "Se requiere un número para ISN";
+                    break;
+                case "ISH":
+                    if (nums.size() >= 1)
+                        output = "ISH calculado: " + Operations.ish(nums.get(0));
+                    else
+                        output = "Se requiere un número para ISH";
+                    break;
+                case "ISAN":
+                    if (nums.size() >= 1)
+                        output = "ISAN calculado: " + Operations.isan(nums.get(0));
+                    else
+                        output = "Se requiere un número para ISAN";
+                    break;
+                case "ISAI":
+                    if (nums.size() >= 1)
+                        output = "ISAI calculado: " + Operations.isai(nums.get(0));
+                    else
+                        output = "Se requiere un número para ISAI";
+                    break;
+                default:
+                    output = "Comando no reconocido: " + cmd;
+            }
+        } catch (Exception e) {
+            output = "Error al ejecutar el comando: " + e.getMessage();
         }
-        RESULT = Boolean.TRUE;
+        RESULT = output;  // IMPORTANTE
     :}
 ;
 
-numero_o_lista ::=
+lista_numeros ::=
     NUMERO:n
     {:
-        ArrayList<Double> lista = new ArrayList<>();
-        lista.add(n);
-        RESULT = lista;
+        ArrayList<Double> l = new ArrayList<>();
+        l.add(n);
+        RESULT = l;
     :}
-    |
-    numero_o_lista:lista COMA NUMERO:n
+  |
+    lista_numeros:lista COMA NUMERO:n
     {:
         lista.add(n);
         RESULT = lista;

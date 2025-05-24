@@ -8,14 +8,13 @@ public class Main {
         ComplexSymbolFactory symbolFactory = new ComplexSymbolFactory();
 
         System.out.println("Calculadora Financiera");
-        System.out.println("Escribe 'salir' para terminar");
-        System.out.println("Formato: comando(numero1,numero2);");
+        System.out.println("Escribe 'exit' para terminar");
 
         while (true) {
             System.out.print("> ");
             String entrada = scanner.nextLine().trim();
 
-            if (entrada.equalsIgnoreCase("salir")) {
+            if (entrada.equalsIgnoreCase("exit")) {
                 break;
             }
 
@@ -24,15 +23,22 @@ public class Main {
             }
 
             try {
-                FinLangLexer lexer = new FinLangLexer(new StringReader(entrada + "\n"));
+                FinLangLexer lexer = new FinLangLexer(new StringReader(entrada), symbolFactory);
+                lexer.yyreset(new StringReader(entrada)); // setea el input
+
                 Parser parser = new Parser(lexer, symbolFactory);
-                parser.parse(); // Analizar sin esperar resultado
-            } catch (Exception e) {
-                if (!e.getMessage().contains("EOF")) {
-                    System.err.println("Error: Formato incorrecto. Use: comando(num1,num2);");
+
+                Object result = parser.parse().value;
+                if (result != null) {
+                    System.out.println(result);
                 }
+            } catch (ClassCastException cce) {
+                System.out.println("❌ Error interno: tipo de dato no esperado.");
+            } catch (Exception e) {
+                System.out.println("❌ Error: Comando con formato inválido.");
             }
         }
+
         scanner.close();
         System.out.println("¡Hasta luego!");
     }

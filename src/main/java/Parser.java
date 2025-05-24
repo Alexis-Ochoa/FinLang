@@ -93,6 +93,10 @@ public class Parser extends java_cup.runtime.lr_parser {
   public int error_sym() {return 1;}
 
 
+
+  public static final int EXPECTED_CONFLICTS = 3;
+
+
 /** Cup generated class to encapsulate user supplied action code.*/
 @SuppressWarnings({"rawtypes", "unchecked", "unused"})
 class CUP$Parser$actions {
@@ -132,54 +136,118 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-            // Cambia la producción programa para manejar mejor el EOF
-            case 1: // programa ::= comando
+          case 1: // programa ::= comando 
             {
-                Object RESULT = null;
-                // No necesitamos forzar un valor booleano aquí
-                RESULT = parser.getSymbolFactory().newSymbol("programa", 0, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
-                CUP$Parser$result = parser.getSymbolFactory().newSymbol("programa",0, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+              Object RESULT =null;
+
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("programa",0, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
+          return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-            case 2: // comando ::= COMANDO LBRACKET numero_o_lista RBRACKET SEMIC
+          case 2: // comando ::= COMANDO LBRACKET lista_numeros RBRACKET SEMIC 
             {
-                Object RESULT = null;
-                int cmdleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)).left;
-                int cmdright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)).right;
-                String cmd = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-4)).value;
-                int numsleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
-                int numsright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
-                ArrayList<Double> nums = (ArrayList<Double>)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
-
-                boolean result = false;
-                switch (cmd.trim()) {
-                    case "sumar": result = Operations.plus(nums); break;
-                    case "restar": result = Operations.minus(nums); break;
-                    // ... otros casos ...
-                }
-                RESULT = result;  // ← Cambia esto (antes era Boolean.TRUE)
-
-                CUP$Parser$result = parser.getSymbolFactory().newSymbol("comando",1, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+              Object RESULT =null;
+		int cmdleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)).left;
+		int cmdright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)).right;
+		String cmd = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-4)).value;
+		int numsleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
+		int numsright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
+		ArrayList<Double> nums = (ArrayList<Double>)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		
+        String output = "";
+        try {
+            switch (cmd.trim()) {
+                case "sumar":
+                    output = "La suma es " + Operations.plus(nums);
+                    break;
+                case "restar":
+                    output = "La resta es " + Operations.minus(nums);
+                    break;
+                case "multiplicar":
+                    output = "El producto es " + Operations.times(nums);
+                    break;
+                case "dividir":
+                    output = "El cociente es " + Operations.divide(nums);
+                    break;
+                case "porcentaje":
+                    if (nums.size() >= 2)
+                        output = "El porcentaje es " + Operations.percentage(nums.get(0), nums.get(1));
+                    else
+                        output = "Se requieren dos números para porcentaje";
+                    break;
+                case "margen_ganancia":
+                    if (nums.size() >= 2)
+                        output = "El margen de ganancia es " + Operations.margen_ganancia(nums.get(0), nums.get(1));
+                    else
+                        output = "Se requieren dos números para margen_ganancia";
+                    break;
+                case "IVA":
+                    if (nums.size() >= 1)
+                        output = "IVA calculado: " + Operations.iva(nums.get(0));
+                    else
+                        output = "Se requiere un número para IVA";
+                    break;
+                case "ISR":
+                    if (nums.size() >= 1)
+                        output = "ISR calculado: " + Operations.isr(nums.get(0));
+                    else
+                        output = "Se requiere un número para ISR";
+                    break;
+                case "ISN":
+                    if (nums.size() >= 1)
+                        output = "ISN calculado: " + Operations.isn(nums.get(0));
+                    else
+                        output = "Se requiere un número para ISN";
+                    break;
+                case "ISH":
+                    if (nums.size() >= 1)
+                        output = "ISH calculado: " + Operations.ish(nums.get(0));
+                    else
+                        output = "Se requiere un número para ISH";
+                    break;
+                case "ISAN":
+                    if (nums.size() >= 1)
+                        output = "ISAN calculado: " + Operations.isan(nums.get(0));
+                    else
+                        output = "Se requiere un número para ISAN";
+                    break;
+                case "ISAI":
+                    if (nums.size() >= 1)
+                        output = "ISAI calculado: " + Operations.isai(nums.get(0));
+                    else
+                        output = "Se requiere un número para ISAI";
+                    break;
+                default:
+                    output = "Comando no reconocido: " + cmd;
             }
+        } catch (Exception e) {
+            output = "Error al ejecutar el comando: " + e.getMessage();
+        }
+        RESULT = output;  // IMPORTANTE
+    
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("comando",1, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
 
-          case 3: // numero_o_lista ::= NUMERO 
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 3: // lista_numeros ::= NUMERO 
             {
               ArrayList<Double> RESULT =null;
 		int nleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int nright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		Double n = (Double)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
-        ArrayList<Double> lista = new ArrayList<>();
-        lista.add(n);
-        RESULT = lista;
+        ArrayList<Double> l = new ArrayList<>();
+        l.add(n);
+        RESULT = l;
     
-              CUP$Parser$result = parser.getSymbolFactory().newSymbol("numero_o_lista",2, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("lista_numeros",2, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 4: // numero_o_lista ::= numero_o_lista COMA NUMERO 
+          case 4: // lista_numeros ::= lista_numeros COMA NUMERO 
             {
               ArrayList<Double> RESULT =null;
 		int listaleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
@@ -192,7 +260,7 @@ class CUP$Parser$actions {
         lista.add(n);
         RESULT = lista;
     
-              CUP$Parser$result = parser.getSymbolFactory().newSymbol("numero_o_lista",2, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("lista_numeros",2, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
 

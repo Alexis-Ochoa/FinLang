@@ -5,25 +5,40 @@ import java_cup.sym;
 
 %%
 %class FinLangLexer
-%unicode
+%extends java_cup.runtime.Scanner
 %cup
+%unicode
 %line
 %column
+%cup
+%eofval{
+    return symbol(sym.EOF);
+%eofval}
+
 
 %{
-    private ComplexSymbolFactory symbolFactory = new ComplexSymbolFactory();
 
-    private Symbol symbol(int type) {
-        return symbolFactory.newSymbol(sym.terminalNames[type], type,
-            new Location(yyline+1, yycolumn+1),
-            new Location(yyline+1, yycolumn+yylength()));
-    }
+private ComplexSymbolFactory symbolFactory;
 
-    private Symbol symbol(int type, Object value) {
-        return symbolFactory.newSymbol(sym.terminalNames[type], type,
-            new Location(yyline+1, yycolumn+1),
-            new Location(yyline+1, yycolumn+yylength()), value);
-    }
+public FinLangLexer(java.io.Reader r, ComplexSymbolFactory csf) {
+    super(r);  // llama al constructor base con Reader
+    this.symbolFactory = csf;
+}
+
+private Symbol symbol(int type) {
+    return symbolFactory.newSymbol(sym.terminalNames[type], type,
+        new Location(yyline+1, yycolumn+1),
+        new Location(yyline+1, yycolumn+yylength()));
+}
+
+private Symbol symbol(int type, Object value) {
+    return symbolFactory.newSymbol(sym.terminalNames[type], type,
+        new Location(yyline+1, yycolumn+1),
+        new Location(yyline+1, yycolumn+yylength()), value);
+}
+
+// No declares next_token(), JFlex lo genera con %cup
+
 %}
 
 WhiteSpace = [ \t\r\n\f]
