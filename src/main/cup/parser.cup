@@ -2,17 +2,8 @@ import java_cup.runtime.*;
 import java.util.ArrayList;
 
 parser code {:
-  @Override
-  public void report_error(String message, Object info) {
-    System.out.println("❌ Error: Comando con formato inválido.");
-  }
-
-  @Override
-  public void report_fatal_error(String message, Object info) {
-    System.out.println("❌ Error fatal: No se puede continuar con el análisis.");
-    throw new RuntimeException(message);
-  }
-:}
+  public static final int EXPECTED_CONFLICTS = 3;
+:};
 
 /* Terminales */
 terminal String COMANDO;

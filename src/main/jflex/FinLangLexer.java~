@@ -3,11 +3,11 @@
 // source: src/main/jflex/lexer.flex
 
 import java_cup.runtime.Symbol;
-import java_cup.runtime.ComplexSymbolFactory;
-import java_cup.runtime.ComplexSymbolFactory.Location;
+import java_cup.sym;
+
 
 @SuppressWarnings("fallthrough")
-class FinLangLexer extends java_cup.runtime.Scanner implements java_cup.runtime.Scanner, java_cup.runtime.Scanner {
+class FinLangLexer implements java_cup.runtime.Scanner, java_cup.runtime.Scanner {
 
   /** This character denotes the end of file. */
   public static final int YYEOF = -1;
@@ -310,26 +310,19 @@ class FinLangLexer extends java_cup.runtime.Scanner implements java_cup.runtime.
 
   /* user code: */
 
-private ComplexSymbolFactory symbolFactory;
-
-public FinLangLexer(java.io.Reader r, ComplexSymbolFactory csf) {
-    super(r);  // llama al constructor base con Reader
-    this.symbolFactory = csf;
+public FinLangLexer(java.io.Reader r) {
+    super(r);
 }
 
+// Método para crear símbolo sin ubicación compleja
 private Symbol symbol(int type) {
-    return symbolFactory.newSymbol(sym.terminalNames[type], type,
-        new Location(yyline+1, yycolumn+1),
-        new Location(yyline+1, yycolumn+yylength()));
+    return new Symbol(type);
 }
 
+// Método para crear símbolo con valor
 private Symbol symbol(int type, Object value) {
-    return symbolFactory.newSymbol(sym.terminalNames[type], type,
-        new Location(yyline+1, yycolumn+1),
-        new Location(yyline+1, yycolumn+yylength()), value);
+    return new Symbol(type, value);
 }
-
-// No declares next_token(), JFlex lo genera con %cup
 
 
 
