@@ -1,3 +1,61 @@
 .root {
     -fx-background-color: black;
 }
+
+.btnNav {
+    -fx-font-size: 20px; /* Tamaño del texto */
+    -fx-font-weight: bold; /* Texto en negrita (opcional) */
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+}
+
+#btnClose:hover {
+    -fx-background-color: red;
+}
+
+#btnClose:pressed{
+    -fx-background-color: rgba(255, 0, 0, 0.57);
+}
+
+#btnMax:hover {
+    -fx-background-color: rgba(128, 128, 128, 0.57);
+}
+
+#btnMax:pressed{
+    -fx-background-color: rgba(128, 128, 128, 0.29);
+}
+
+#btnMin:hover {
+    -fx-background-color: rgba(128, 128, 128, 0.57);
+}
+
+#btnMin:pressed{
+    -fx-background-color: rgba(128, 128, 128, 0.29);
+}
+
+Label {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+}
+
+.btnAction {
+    -fx-font-size: 15px;
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-border-color: white;
+}
+
+#lineNumbers {
+    -fx-background-color: #2e2e2e;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-font-family: "Courier New";
+}
+
+#codeEditor {
+    -fx-line-spacing: 100px;
+    -fx-background-color: black;
+    -fx-text-fill: #000000;
+    -fx-font-size: 17px;
+    -fx-font-family: "Courier New";
+}
