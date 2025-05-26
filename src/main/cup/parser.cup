@@ -25,82 +25,84 @@ precedence left COMANDO, LBRACKET;
 
 start with programa;
 
-
-programa ::= comando;
-
+programa ::= comando:output{:
+        RESULT = output; // 🔹 Ahora `resultado` almacena el valor y lo pasa al parser
+    :}
+;
 comando ::=
     COMANDO:cmd LBRACKET lista_numeros:nums RBRACKET SEMIC
     {:
-        String output = "";
+        Double output = null;
         try {
             switch (cmd.trim()) {
                 case "sumar":
-                    output = "La suma es " + Operations.plus(nums);
+                    output = Operations.plus(nums);
                     break;
                 case "restar":
-                    output = "La resta es " + Operations.minus(nums);
+                    output = Operations.minus(nums);
                     break;
                 case "multiplicar":
-                    output = "El producto es " + Operations.times(nums);
+                    output = Operations.times(nums);
                     break;
                 case "dividir":
-                    output = "El cociente es " + Operations.divide(nums);
+                    output = Operations.divide(nums);
                     break;
                 case "porcentaje":
                     if (nums.size() >= 2)
-                        output = "El porcentaje es " + Operations.percentage(nums.get(0), nums.get(1));
+                        output = Operations.percentage(nums.get(0), nums.get(1));
                     else
-                        output = "Se requieren dos números para porcentaje";
+                        output = null;
                     break;
                 case "margen_ganancia":
                     if (nums.size() >= 2)
-                        output = "El margen de ganancia es " + Operations.margen_ganancia(nums.get(0), nums.get(1));
+                        output = Operations.margen_ganancia(nums.get(0), nums.get(1));
                     else
-                        output = "Se requieren dos números para margen_ganancia";
+                        output = null;
                     break;
                 case "IVA":
                     if (nums.size() >= 1)
-                        output = "IVA calculado: " + Operations.iva(nums.get(0));
+                        output = Operations.iva(nums.get(0));
                     else
-                        output = "Se requiere un número para IVA";
+                        output = null;
                     break;
                 case "ISR":
                     if (nums.size() >= 1)
-                        output = "ISR calculado: " + Operations.isr(nums.get(0));
+                        output = Operations.isr(nums.get(0));
                     else
-                        output = "Se requiere un número para ISR";
+                        output = null;
                     break;
                 case "ISN":
                     if (nums.size() >= 1)
-                        output = "ISN calculado: " + Operations.isn(nums.get(0));
+                        output = Operations.isn(nums.get(0));
                     else
-                        output = "Se requiere un número para ISN";
+                        output = null;
                     break;
                 case "ISH":
                     if (nums.size() >= 1)
-                        output = "ISH calculado: " + Operations.ish(nums.get(0));
+                        output = Operations.ish(nums.get(0));
                     else
-                        output = "Se requiere un número para ISH";
+                        output = null;
                     break;
                 case "ISAN":
                     if (nums.size() >= 1)
-                        output = "ISAN calculado: " + Operations.isan(nums.get(0));
+                        output = Operations.isan(nums.get(0));
                     else
-                        output = "Se requiere un número para ISAN";
+                        output = null;
                     break;
                 case "ISAI":
                     if (nums.size() >= 1)
-                        output = "ISAI calculado: " + Operations.isai(nums.get(0));
+                        output = Operations.isai(nums.get(0));
                     else
-                        output = "Se requiere un número para ISAI";
+                        output = null;
                     break;
                 default:
-                    output = "Comando no reconocido: " + cmd;
+                    output = null;
             }
         } catch (Exception e) {
-            output = "Error al ejecutar el comando: " + e.getMessage();
+            output = null;
         }
-        RESULT = output;  // IMPORTANTE
+        System.out.println("📌 Valor asignado a RESULT: " + output);
+        RESULT = output;
     :}
 ;
 

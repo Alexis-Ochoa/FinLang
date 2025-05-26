@@ -8,6 +8,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import jfxtras.styles.jmetro.JMetro;
+import java_cup.runtime.ComplexSymbolFactory;
+
+import java.io.StringReader;
 
 public class Controller {
     @FXML public Button btnClick;
@@ -17,6 +20,8 @@ public class Controller {
     @FXML private TextArea codeEditor;
     @FXML private ListView<String> lineNumbers;
     @FXML private TextArea outputArea;
+
+    private ComplexSymbolFactory symbolFactory = new ComplexSymbolFactory();
 
     private boolean isMaximized = false;
 
@@ -46,11 +51,37 @@ public class Controller {
 
 
     @FXML
-    private void run () {
-        String userInput = codeEditor.getText(); // Obtiene el texto ingresado
-        String processedText = analyzeText(userInput); // Llama a la función de procesamiento
-        outputArea.setText(processedText); // Muestra el resultado en el área de salida
+    private void run() {
+        String userInput = codeEditor.getText().trim(); // Obtiene el texto ingresado
+
+        if (userInput.isEmpty()) {
+            outputArea.setText("⚠ No hay texto para analizar.");
+            return;
+        }
+
+        try {
+            FinLangLexer lexer = new FinLangLexer(new StringReader(userInput), symbolFactory);
+            lexer.yyreset(new StringReader(userInput)); // Asegurar que recibe correctamente la entrada
+
+            Parser parser = new Parser(lexer, symbolFactory);
+            Object result = parser.parse().value;
+            System.out.println("📌 Resultado final desde el parser: " + result);
+
+            // 🔍 Depuración: Imprimir el resultado en consola antes de enviarlo a outputArea
+            System.out.println("Resultado desde el parser: " + result);
+
+            if (result != null) {
+                outputArea.setText(result.toString()); // 🔹 Ahora mostrará el resultado en la interfaz
+            } else {
+                outputArea.setText("⚠ Error: No se pudo calcular un resultado válido.");
+            }
+
+        } catch (Exception e) {
+            outputArea.setText("❌ Error inesperado: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
+
 
 
     @FXML
