@@ -19,7 +19,7 @@ public class Operations {
             System.out.println("Error: Se necesitan al menos dos números para restar");
             return null;
         }
-        double total = numbers.get(0);  // Empezamos con el primer número
+        double total = numbers.get(0);
         for (int i = 1; i < numbers.size(); i++) {
             total -= numbers.get(i);
         }
@@ -32,7 +32,7 @@ public class Operations {
             System.out.println("Error: Se necesitan al menos dos números para multiplicar");
             return null;
         }
-        double total = numbers.get(0);  // Empezamos con el primer número
+        double total = numbers.get(0);
         for (int i = 1; i < numbers.size(); i++) {
             total *= numbers.get(i);
         }
@@ -45,7 +45,7 @@ public class Operations {
             System.out.println("Error: Se necesitan al menos dos números para dividir");
             return null;
         }
-        double total = numbers.get(0);  // Empezamos con el primer número
+        double total = numbers.get(0);
         for (int i = 1; i < numbers.size(); i++) {
             if (numbers.get(i) == 0) {
                 System.out.println("Error: División por cero");
@@ -185,11 +185,4 @@ public class Operations {
         System.out.println("El " + percentage + "% de " + amount + " es " + total);
         return total;
     }
-
-    private static void throwIfInvalidOperation(boolean condition, String message) {
-        if (!condition) {
-            throw new RuntimeException(message);
-        }
-    }
-
 }

@@ -60,16 +60,40 @@ comando ::=
                     if (nums.size() >= 2)
                         result = Operations.percentage(nums.get(0), nums.get(1));
                     break;
+                case "margen_ganancia":  // 🔹 Se vuelve a incluir `margen_ganancia`
+                    if (nums.size() >= 2)
+                        result = Operations.margen_ganancia(nums.get(0), nums.get(1));
+                    break;
                 case "IVA":
                     if (nums.size() >= 1)
                         result = Operations.iva(nums.get(0));
+                    break;
+                case "ISR":
+                    if (nums.size() >= 1)
+                        result = Operations.isr(nums.get(0));
+                    break;
+                case "ISN":
+                    if (nums.size() >= 1)
+                        result = Operations.isn(nums.get(0));
+                    break;
+                case "ISH":
+                    if (nums.size() >= 1)
+                        result = Operations.ish(nums.get(0));
+                    break;
+                case "ISAN":
+                    if (nums.size() >= 1)
+                        result = Operations.isan(nums.get(0));
+                    break;
+                case "ISAI":
+                    if (nums.size() >= 1)
+                        result = Operations.isai(nums.get(0));
                     break;
                 default:
                     output += "⚠ Error: Comando no reconocido.\n";
             }
 
             if (result != null) {
-                output += "✅ Resultado: " + result + "\n";
+                output += "✅ Resultado: " + String.format("%.2f", result);
             } else {
                 output += "❌ Error: No se pudo calcular.";
             }

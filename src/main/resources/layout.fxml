@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -24,7 +21,7 @@
     <HBox VBox.vgrow="ALWAYS">
         <ListView fx:id="lineNumbers" styleClass="lineNumbers" prefWidth="50"/>
         <TextArea HBox.hgrow="ALWAYS" styleClass="codeEditor" fx:id="codeEditor"/>
-        <TextArea fx:id="outputArea" styleClass="outputArea" VBox.vgrow="ALWAYS" editable="false"/>
+        <TextArea fx:id="outputArea" styleClass="outputArea" prefWidth="550" VBox.vgrow="ALWAYS" editable="false"/>
     </HBox>
 
 </VBox>

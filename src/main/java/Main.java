@@ -1,45 +1,31 @@
-import java_cup.runtime.*;
-import java.io.StringReader;
-import java.util.Scanner;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import jfxtras.styles.jmetro.JMetro;
 
-public class Main {
+import java.io.IOException;
+import java.util.Objects;
+public class Main extends Application {
+    @Override
+    public void start(Stage primaryStage) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/layout.fxml"));
+        VBox root = loader.load();
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(Objects.requireNonNull(JMetro.class.getResource("/styles.css")).toExternalForm()); //Modo oscuro, pero la barra de la ventana sigue siendo blanca
+
+        primaryStage.initStyle(StageStyle.UNDECORATED);
+
+        primaryStage.setMaximized(true);
+
+        primaryStage.setTitle("FinLang");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        ComplexSymbolFactory symbolFactory = new ComplexSymbolFactory();
-
-        System.out.println("Calculadora Financiera");
-        System.out.println("Escribe 'exit' para terminar");
-
-        while (true) {
-            System.out.print("> ");
-            String entrada = scanner.nextLine().trim();
-
-            if (entrada.equalsIgnoreCase("exit")) {
-                break;
-            }
-
-            if (entrada.isEmpty()) {
-                continue;
-            }
-
-            try {
-                FinLangLexer lexer = new FinLangLexer(new StringReader(entrada), symbolFactory);
-                lexer.yyreset(new StringReader(entrada)); // setea el input
-
-                Parser parser = new Parser(lexer, symbolFactory);
-
-                Object result = parser.parse().value;
-                if (result != null) {
-                    System.out.println(result);
-                }
-            } catch (ClassCastException cce) {
-                System.out.println("❌ Error interno: tipo de dato no esperado.");
-            } catch (Exception e) {
-                System.out.println("❌ Error: Comando con formato inválido.");
-            }
-        }
-
-        scanner.close();
-        System.out.println("¡Hasta luego!");
+        launch(args);
     }
 }

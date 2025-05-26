@@ -62,12 +62,20 @@ Label {
     -fx-font-size: 13px; /* 🔹 Tamaño acorde a `lineNumbers` */
 }
 
-    #codeEditor, #outputArea {
-        -fx-control-inner-background: #1e1f22;
-        -fx-text-fill: #c0c6d1;
-        -fx-font-size: 17px;
-        -fx-font-family: "Courier New";
-        -fx-focus-color: transparent;
-        -fx-faint-focus-color: transparent;
-        -fx-border-color: transparent;
-    }
+#codeEditor {
+    -fx-control-inner-background: #1e1f22;
+    -fx-text-fill: #c0c6d1;
+    -fx-font-size: 17px;
+    -fx-font-family: "Courier New";
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-border-color: transparent;
+}
+
+#outputArea{
+    -fx-control-inner-background: #1e1f22;
+    -fx-text-fill: #c0c6d1;
+    -fx-font-size: 13px;
+    -fx-font-family: "Courier New";
+    -fx-focus-color: transparent;
+}
