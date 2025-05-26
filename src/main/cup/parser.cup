@@ -25,83 +25,59 @@ precedence left COMANDO, LBRACKET;
 
 start with programa;
 
-programa ::= comando:output{:
-        RESULT = output; // 🔹 Ahora `resultado` almacena el valor y lo pasa al parser
+programa ::= comando:output programa:resto
+    {:
+        RESULT = output + "\n" + resto; // 🔹 Concatena resultados en múltiples líneas
+    :}
+  | comando:output
+    {:
+        RESULT = output; // 🔹 Última línea
     :}
 ;
+
 comando ::=
     COMANDO:cmd LBRACKET lista_numeros:nums RBRACKET SEMIC
     {:
-        Double output = null;
+        String output = "📌 Comando: " + cmd + "\n";
+        output += "🔢 Entrada: " + nums + "\n";
+
         try {
+            Double result = null;
             switch (cmd.trim()) {
                 case "sumar":
-                    output = Operations.plus(nums);
+                    result = Operations.plus(nums);
                     break;
                 case "restar":
-                    output = Operations.minus(nums);
+                    result = Operations.minus(nums);
                     break;
                 case "multiplicar":
-                    output = Operations.times(nums);
+                    result = Operations.times(nums);
                     break;
                 case "dividir":
-                    output = Operations.divide(nums);
+                    result = Operations.divide(nums);
                     break;
                 case "porcentaje":
                     if (nums.size() >= 2)
-                        output = Operations.percentage(nums.get(0), nums.get(1));
-                    else
-                        output = null;
-                    break;
-                case "margen_ganancia":
-                    if (nums.size() >= 2)
-                        output = Operations.margen_ganancia(nums.get(0), nums.get(1));
-                    else
-                        output = null;
+                        result = Operations.percentage(nums.get(0), nums.get(1));
                     break;
                 case "IVA":
                     if (nums.size() >= 1)
-                        output = Operations.iva(nums.get(0));
-                    else
-                        output = null;
-                    break;
-                case "ISR":
-                    if (nums.size() >= 1)
-                        output = Operations.isr(nums.get(0));
-                    else
-                        output = null;
-                    break;
-                case "ISN":
-                    if (nums.size() >= 1)
-                        output = Operations.isn(nums.get(0));
-                    else
-                        output = null;
-                    break;
-                case "ISH":
-                    if (nums.size() >= 1)
-                        output = Operations.ish(nums.get(0));
-                    else
-                        output = null;
-                    break;
-                case "ISAN":
-                    if (nums.size() >= 1)
-                        output = Operations.isan(nums.get(0));
-                    else
-                        output = null;
-                    break;
-                case "ISAI":
-                    if (nums.size() >= 1)
-                        output = Operations.isai(nums.get(0));
-                    else
-                        output = null;
+                        result = Operations.iva(nums.get(0));
                     break;
                 default:
-                    output = null;
+                    output += "⚠ Error: Comando no reconocido.\n";
             }
+
+            if (result != null) {
+                output += "✅ Resultado: " + result + "\n";
+            } else {
+                output += "❌ Error: No se pudo calcular.";
+            }
+
         } catch (Exception e) {
-            output = null;
+            output += "❌ Error en la ejecución: " + e.getMessage();
         }
-        System.out.println("📌 Valor asignado a RESULT: " + output);
+
         RESULT = output;
     :}
 ;

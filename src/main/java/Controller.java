@@ -1,13 +1,9 @@
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import jfxtras.styles.jmetro.JMetro;
 import java_cup.runtime.ComplexSymbolFactory;
 
 import java.io.StringReader;
@@ -23,7 +19,7 @@ public class Controller {
 
     private ComplexSymbolFactory symbolFactory = new ComplexSymbolFactory();
 
-    private boolean isMaximized = false;
+    private boolean isMaximized = true;
 
     @FXML
     private void closeApp() {
@@ -82,10 +78,11 @@ public class Controller {
         }
     }
 
-
-
     @FXML
-    private void clean () {}
+    private void clean () {
+        codeEditor.clear();
+        outputArea.clear();
+    }
 
     @FXML
     public void initialize() {

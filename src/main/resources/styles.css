@@ -1,12 +1,13 @@
-.root {
-    -fx-background-color: black;
-}
-
 .btnNav {
     -fx-font-size: 20px; /* Tamaño del texto */
     -fx-font-weight: bold; /* Texto en negrita (opcional) */
     -fx-background-color: transparent;
     -fx-text-fill: white;
+}
+
+.titleBar {
+    -fx-background-color: #3c3f41;
+    -fx-padding: 1px;
 }
 
 #btnClose:hover {
@@ -46,16 +47,27 @@ Label {
 }
 
 #lineNumbers {
-    -fx-background-color: #2e2e2e;
+    -fx-control-inner-background: #1e1f22;
+    -fx-cell-size: 20px; /* 🔹 Ajuste fino para alineación con `codeEditor` */
     -fx-text-fill: white;
-    -fx-font-size: 12px;
+    -fx-font-size: 13px; /* 🔹 Números más pequeños para que no dominen el espacio */
     -fx-font-family: "Courier New";
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-border-color: transparent;
 }
 
-#codeEditor {
-    -fx-line-spacing: 100px;
-    -fx-background-color: black;
-    -fx-text-fill: #000000;
-    -fx-font-size: 17px;
-    -fx-font-family: "Courier New";
+#lineNumbers .list-cell {
+    -fx-padding: 2px 0px; /* 🔹 Reduce el espacio entre números */
+    -fx-font-size: 13px; /* 🔹 Tamaño acorde a `lineNumbers` */
 }
+
+    #codeEditor, #outputArea {
+        -fx-control-inner-background: #1e1f22;
+        -fx-text-fill: #c0c6d1;
+        -fx-font-size: 17px;
+        -fx-font-family: "Courier New";
+        -fx-focus-color: transparent;
+        -fx-faint-focus-color: transparent;
+        -fx-border-color: transparent;
+    }

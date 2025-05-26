@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 
 <VBox xmlns:fx="http://javafx.com/fxml" fx:controller="Controller">
-    <HBox id="customTitleBar" style="-fx-background-color: #1e1e1e; -fx-padding: 1px;" alignment="CENTER_LEFT">
+    <HBox id="customTitleBar" styleClass="titleBar" alignment="CENTER_LEFT">
         <Pane HBox.hgrow="NEVER"/>
         <Button styleClass="btnAction" text="Ejecutar" fx:id="btnRun" onAction="#run"/>
         <Button styleClass="btnAction" text="Borrar" fx:id="btnClean" onAction="#clean"/>
@@ -24,7 +24,7 @@
     <HBox VBox.vgrow="ALWAYS">
         <ListView fx:id="lineNumbers" styleClass="lineNumbers" prefWidth="50"/>
         <TextArea HBox.hgrow="ALWAYS" styleClass="codeEditor" fx:id="codeEditor"/>
-        <TextArea fx:id="outputArea" VBox.vgrow="ALWAYS" editable="false"/>
+        <TextArea fx:id="outputArea" styleClass="outputArea" VBox.vgrow="ALWAYS" editable="false"/>
     </HBox>
 
 </VBox>
