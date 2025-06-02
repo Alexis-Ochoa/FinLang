@@ -46,6 +46,14 @@ Label {
     -fx-border-color: white;
 }
 
+.btnAction:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.2);
+}
+
+.btnAction:pressed {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+}
+
 #lineNumbers {
     -fx-control-inner-background: #1e1f22;
     -fx-cell-size: 20px; /* 🔹 Ajuste fino para alineación con `codeEditor` */
