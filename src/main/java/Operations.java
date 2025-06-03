@@ -1,70 +1,63 @@
 import java.util.ArrayList;
 
 public class Operations {
-    public static String plus(ArrayList<Double> numbers) {
+    public static double plus(ArrayList<Double> numbers) {
         if (numbers.size() < 2) {
-            System.out.println("Error: Se necesitan al menos dos números para sumar");
-            return null;
+            throw new IllegalArgumentException("Se necesitan al menos dos números para sumar");
         }
-        double total = numbers.get(0);  // Empezamos con el primer número
+        double total = numbers.get(0);
         for (int i = 1; i < numbers.size(); i++) {
             total += numbers.get(i);
         }
-        System.out.println("La suma es " + total);
-        return "La suma es " + String.format("%.2f", total);
+        return total;
     }
 
-    public static String minus(ArrayList<Double> numbers) {
+    public static double minus(ArrayList<Double> numbers) {
         if (numbers.size() < 2) {
-            System.out.println("Error: Se necesitan al menos dos números para restar");
-            return null;
+            throw new IllegalArgumentException("Se necesitan al menos dos números para restar");
         }
         double total = numbers.get(0);
         for (int i = 1; i < numbers.size(); i++) {
             total -= numbers.get(i);
         }
-        System.out.println("La resta es " + total);
-        return "La resta es " + String.format("%.2f", total);
+        return total;
     }
 
-    public static String times(ArrayList<Double> numbers) {
+    public static double times(ArrayList<Double> numbers) {
         if (numbers.size() < 2) {
-            System.out.println("Error: Se necesitan al menos dos números para multiplicar");
-            return null;
+            throw new IllegalArgumentException("Se necesitan al menos dos números para multiplicar");
         }
         double total = numbers.get(0);
         for (int i = 1; i < numbers.size(); i++) {
             total *= numbers.get(i);
         }
-        System.out.println("La multiplicación es " + total);
-        return "La multiplicación es " + String.format("%.2f", total);
+        return total;
     }
 
-    public static String divide(ArrayList<Double> numbers) {
+    public static double divide(ArrayList<Double> numbers) {
         if (numbers.size() < 2) {
-            System.out.println("Error: Se necesitan al menos dos números para dividir");
-            return null;
+            throw new IllegalArgumentException("Se necesitan al menos dos números para dividir");
         }
         double total = numbers.get(0);
         for (int i = 1; i < numbers.size(); i++) {
             if (numbers.get(i) == 0) {
-                System.out.println("Error: División por cero");
-                return null;
+                throw new IllegalArgumentException("División por cero");
             }
             total /= numbers.get(i);
         }
-        System.out.println("La división es " + total);
-        return "La división es " + String.format("%.2f", total);
+        return total;
     }
 
-    public static String iva(double amount){
-        double taxes = amount * 0.16;
-        double total = taxes+amount;
-        System.out.println("El IVA de " + amount + " son " + taxes + ". Dando un total de "+ total);
-        return "El IVA de $" + String.format("%.2f", amount) + " son $" + String.format("%.2f", taxes) + ". Dando un total de $" + String.format("%.2f", total);
+    // New helper method to get IVA amount only
+    public static double calculateIVAAmount(double amount){
+        return amount * 0.16;
     }
 
-    public static String isr(double salary){
+    public static double iva(double amount){
+        return amount + calculateIVAAmount(amount);
+    }
+
+    public static double isr(double salary){
         double[][] tarifas = {
                 {0.01, 746.04, 0.00, 1.92},
                 {746.05, 6332.05, 14.32, 6.40},
@@ -77,7 +70,7 @@ public class Operations {
                 {93993.91, 125325.20, 22665.17, 32.00},
                 {125325.21, 375975.61, 32691.18, 34.00},
                 {375975.62, Double.MAX_VALUE, 117912.32, 35.00}
-                };
+        };
 
         for (double[] tarifa : tarifas) {
             double limiteInferior = tarifa[0];
@@ -87,15 +80,13 @@ public class Operations {
 
             if (salary >= limiteInferior && salary <= limiteSuperior) {
                 double excedente = salary - limiteInferior;
-                double impuesto = cuotaFija + (excedente * (porcentajeExcedente / 100));
-                System.out.println("El ISR para " + salary + " es " + impuesto);
-                return "El ISR para $" + String.format("%.2f", salary) + " es $" + String.format("%.2f", impuesto);
+                return cuotaFija + (excedente * (porcentajeExcedente / 100));
             }
         }
         throw new IllegalArgumentException("Ingreso fuera de los rangos definidos.");
     }
 
-    public static String isan(double price){
+    public static double isan(double price){
         double[][] tarifas = {
                 {0.01, 370741.94, 0.00, 2.0},
                 {370741.95, 444890.26, 7414.71, 5.0},
@@ -119,16 +110,14 @@ public class Operations {
             }
         }
 
-        // Aplicar descuento si el precio supera $1,023,744.62
         if (price > 1023744.62) {
             double descuento = (price - 1023744.62) * 0.07;
             impuesto -= descuento;
         }
-        System.out.println("El ISAN del vehículo que costó $" + price + " es " + impuesto);
-        return "El ISAN del vehículo que costó $" + String.format("%.2f", price) + " es $" + String.format("%.2f", impuesto);
+        return impuesto;
     }
 
-    public static String isai(double maxValue){
+    public static double isai(double maxValue){
         double[][] tarifas = {
                 {0.12, 123988.81, 300.60, 0.01537},
                 {123988.82, 198382.03, 1803.36, 0.03272},
@@ -151,43 +140,45 @@ public class Operations {
 
             if (maxValue >= limiteInferior && maxValue <= limiteSuperior) {
                 double excedente = maxValue - limiteInferior;
-                double impuesto = cuotaFija + (excedente * factor);
-                System.out.println("El ISAI de " + maxValue + " es " + impuesto);
-                return "El ISAI de $" + String.format("%.2f", maxValue) + " es $" + String.format("%.2f", impuesto);
+                return cuotaFija + (excedente * factor);
             }
         }
         throw new IllegalArgumentException("Precio fuera de los rangos definidos.");
     }
 
-    public static String isn(double amount){
-        double taxes = amount * 0.03;
-        double total = taxes+amount;
-        System.out.println("El ISN de " + amount + " son " + taxes + ". Dando un total de " + total);
-        return "El ISN de $" + String.format("%.2f", amount) + " son $" + String.format("%.2f", taxes) + ". Dando un total de $" + String.format("%.2f", total);
+    // New helper method to get ISN amount only
+    public static double calculateISNAmount(double amount){
+        return amount * 0.03;
     }
 
-    public static String ish(double amount){
-        double taxes = amount * 0.03;
-        double total = taxes+amount;
-        System.out.println("El ISH de " + amount + " son " + taxes + ". Dando un total de " + total);
-        return "El ISH de $" + String.format("%.2f", amount) + " son $" + String.format("%.2f", taxes) + ". Dando un total de $" + String.format("%.2f", total);
+    public static double isn(double amount){
+        return amount + calculateISNAmount(amount);
     }
 
-    public static String margen_ganancia(double salesA, double salesC){
+    // New helper method to get ISH amount only
+    public static double calculateISHAmount(double amount){
+        return amount * 0.03;
+    }
+
+    public static double ish(double amount){
+        return amount + calculateISHAmount(amount);
+    }
+
+    // New helper method to get ganancia only
+    public static double calculateGanancia(double salesA, double salesC){
+        return salesA - salesC;
+    }
+
+    public static double margen_ganancia(double salesA, double salesC){
         if (salesA == 0) {
-            System.out.println("❌ Error: La venta no puede ser cero.");
-            return null;
+            throw new IllegalArgumentException("La venta no puede ser cero para calcular el margen de ganancia porcentual.");
         }
         double ganancia = salesA - salesC;
-        double margen = (ganancia / salesA) * 100;
-        System.out.println("El margen de ganancia es " + ganancia + "%");
-        return  "El margen de ganancia es: $" + String.format("%.2f", ganancia) + "\n✅ El margen de ganancia porcentual es: " + String.format("%.2f", margen) + "%";
+        return (ganancia / salesA) * 100;
     }
 
-    public static String percentage (double amount, double percentage){
+    public static double percentage (double amount, double percentage){
         double decimal = percentage / 100;
-        double total = amount * decimal;
-        System.out.println("El " + percentage + "% de " + amount + " es " + total);
-        return "El " + String.format("%.2f", percentage) + "% de " + String.format("%.2f", amount) + " es " + String.format("%.2f", total);
+        return amount * decimal;
     }
 }

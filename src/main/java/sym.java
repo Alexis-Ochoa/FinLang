@@ -6,14 +6,16 @@
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int NUMERO = 7;
   public static final int COMA = 3;
-  public static final int COMANDO = 2;
-  public static final int error = 1;
-  public static final int RBRACKET = 5;
   public static final int SEMIC = 6;
-  public static final int LBRACKET = 4;
+  public static final int EQ = 9;
   public static final int EOF = 0;
+  public static final int NUMERO = 7;
+  public static final int RBRACKET = 5;
+  public static final int ID = 8;
+  public static final int error = 1;
+  public static final int COMANDO = 2;
+  public static final int LBRACKET = 4;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -22,7 +24,9 @@ public class sym {
   "LBRACKET",
   "RBRACKET",
   "SEMIC",
-  "NUMERO"
+  "NUMERO",
+  "ID",
+  "EQ"
   };
 }
 

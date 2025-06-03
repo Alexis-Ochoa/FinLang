@@ -4,6 +4,8 @@
 //----------------------------------------------------
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.text.DecimalFormat;
 
 /** CUP v0.11b 20160615 (GIT 4ac7450) generated parser.
   */
@@ -28,9 +30,10 @@ public class Parser extends java_cup.runtime.lr_parser {
   /** Production table. */
   protected static final short _production_table[][] = 
     unpackFromStrings(new String[] {
-    "\000\006\000\002\002\004\000\002\002\004\000\002\002" +
-    "\003\000\002\003\007\000\002\004\003\000\002\004\005" +
-    "" });
+    "\000\013\000\002\002\004\000\002\002\004\000\002\002" +
+    "\003\000\002\003\003\000\002\003\003\000\002\006\006" +
+    "\000\002\007\003\000\002\007\003\000\002\004\007\000" +
+    "\002\005\003\000\002\005\005" });
 
   /** Access to production table. */
   public short[][] production_table() {return _production_table;}
@@ -38,13 +41,20 @@ public class Parser extends java_cup.runtime.lr_parser {
   /** Parse-action table. */
   protected static final short[][] _action_table = 
     unpackFromStrings(new String[] {
-    "\000\015\000\004\004\004\001\002\000\004\006\011\001" +
-    "\002\000\004\002\010\001\002\000\006\002\uffff\004\004" +
-    "\001\002\000\004\002\000\001\002\000\004\002\001\001" +
-    "\002\000\004\011\012\001\002\000\006\005\ufffd\007\ufffd" +
-    "\001\002\000\006\005\014\007\015\001\002\000\004\011" +
-    "\017\001\002\000\004\010\016\001\002\000\006\002\ufffe" +
-    "\004\ufffe\001\002\000\006\005\ufffc\007\ufffc\001\002" });
+    "\000\025\000\006\004\005\012\004\001\002\000\004\013" +
+    "\025\001\002\000\004\006\014\001\002\000\010\002\ufffd" +
+    "\004\ufffd\012\ufffd\001\002\000\004\002\013\001\002\000" +
+    "\010\002\ufffe\004\ufffe\012\ufffe\001\002\000\010\002\uffff" +
+    "\004\005\012\004\001\002\000\004\002\000\001\002\000" +
+    "\004\002\001\001\002\000\006\011\015\012\016\001\002" +
+    "\000\010\005\ufffb\007\ufffb\010\ufffb\001\002\000\010\005" +
+    "\ufffa\007\ufffa\010\ufffa\001\002\000\006\005\ufff8\007\ufff8" +
+    "\001\002\000\006\005\021\007\022\001\002\000\006\011" +
+    "\015\012\016\001\002\000\004\010\023\001\002\000\010" +
+    "\002\ufff9\004\ufff9\012\ufff9\001\002\000\006\005\ufff7\007" +
+    "\ufff7\001\002\000\006\011\015\012\016\001\002\000\004" +
+    "\010\027\001\002\000\010\002\ufffc\004\ufffc\012\ufffc\001" +
+    "\002" });
 
   /** Access to parse-action table. */
   public short[][] action_table() {return _action_table;}
@@ -52,11 +62,15 @@ public class Parser extends java_cup.runtime.lr_parser {
   /** <code>reduce_goto</code> table. */
   protected static final short[][] _reduce_table = 
     unpackFromStrings(new String[] {
-    "\000\015\000\006\002\004\003\005\001\001\000\002\001" +
-    "\001\000\002\001\001\000\006\002\006\003\005\001\001" +
-    "\000\002\001\001\000\002\001\001\000\004\004\012\001" +
+    "\000\025\000\012\002\006\003\010\004\007\006\005\001" +
     "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
-    "\000\002\001\001\000\002\001\001\000\002\001\001" });
+    "\000\002\001\001\000\002\001\001\000\012\002\011\003" +
+    "\010\004\007\006\005\001\001\000\002\001\001\000\002" +
+    "\001\001\000\006\005\017\007\016\001\001\000\002\001" +
+    "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
+    "\000\004\007\023\001\001\000\002\001\001\000\002\001" +
+    "\001\000\002\001\001\000\004\007\025\001\001\000\002" +
+    "\001\001\000\002\001\001" });
 
   /** Access to <code>reduce_goto</code> table. */
   public short[][] reduce_table() {return _reduce_table;}
@@ -96,6 +110,27 @@ public class Parser extends java_cup.runtime.lr_parser {
 
 
   public static final int EXPECTED_CONFLICTS = 3;
+
+  // HashMap para almacenar las variables
+  private HashMap<String, Double> variables = new HashMap<>();
+
+  // Método para obtener el valor de una variable
+  public double getVariableValue(String varName) throws Exception {
+    if (!variables.containsKey(varName)) {
+      throw new Exception("Variable '" + varName + "' no declarada.");
+    }
+    return variables.get(varName);
+  }
+
+  // Método para asignar un valor a una variable
+  public void setVariableValue(String varName, Double value) {
+    variables.put(varName, value);
+  }
+
+  // Formato para moneda
+  private static final DecimalFormat currencyFormat = new DecimalFormat("$#,##0.00");
+  // Formato para porcentaje
+  private static final DecimalFormat percentageFormat = new DecimalFormat("0.00%");
 
 
 /** Cup generated class to encapsulate user supplied action code.*/
@@ -137,7 +172,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 1: // programa ::= comando programa 
+          case 1: // programa ::= sentencia programa 
             {
               Object RESULT =null;
 		int outputleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
@@ -154,7 +189,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 2: // programa ::= comando 
+          case 2: // programa ::= sentencia 
             {
               Object RESULT =null;
 		int outputleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
@@ -168,7 +203,86 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 3: // comando ::= COMANDO LBRACKET lista_numeros RBRACKET SEMIC 
+          case 3: // sentencia ::= comando 
+            {
+              Object RESULT =null;
+		int cleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int cright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Object c = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		
+        RESULT = c;
+    
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("sentencia",1, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 4: // sentencia ::= declaracion_variable 
+            {
+              Object RESULT =null;
+		int dvleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int dvright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Object dv = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		
+        RESULT = dv;
+    
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("sentencia",1, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 5: // declaracion_variable ::= ID EQ expresion_numerica SEMIC 
+            {
+              Object RESULT =null;
+		int varNameleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).left;
+		int varNameright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).right;
+		String varName = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-3)).value;
+		int valueleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
+		int valueright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
+		Double value = (Double)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+		
+        parser.setVariableValue(varName, value);
+        RESULT = "✅ Variable '" + varName + "' asignada a " + String.format("%.2f", value);
+    
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("declaracion_variable",4, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 6: // expresion_numerica ::= NUMERO 
+            {
+              Double RESULT =null;
+		int nleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int nright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Double n = (Double)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		
+        RESULT = n;
+    
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("expresion_numerica",5, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 7: // expresion_numerica ::= ID 
+            {
+              Double RESULT =null;
+		int varNameleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int varNameright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		String varName = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		
+        try {
+            RESULT = parser.getVariableValue(varName);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            RESULT = Double.NaN; // Indicate an error
+        }
+    
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("expresion_numerica",5, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 8: // comando ::= COMANDO LBRACKET lista_numeros RBRACKET SEMIC 
             {
               Object RESULT =null;
 		int cmdleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)).left;
@@ -182,60 +296,106 @@ class CUP$Parser$actions {
         output += "🔢 Entrada: " + nums + "\n";
 
         try {
-            String result = null;
+            double resultValue = Double.NaN; // Default to NaN in case no operation matches
+            String formattedResult = "";
+
             switch (cmd.trim()) {
                 case "sumar":
-                    result = Operations.plus(nums);
+                    resultValue = Operations.plus(nums);
+                    formattedResult = "La suma es " + parser.currencyFormat.format(resultValue);
                     break;
                 case "restar":
-                    result = Operations.minus(nums);
+                    resultValue = Operations.minus(nums);
+                    formattedResult = "La resta es " + parser.currencyFormat.format(resultValue);
                     break;
                 case "multiplicar":
-                    result = Operations.times(nums);
+                    resultValue = Operations.times(nums);
+                    formattedResult = "La multiplicación es " + parser.currencyFormat.format(resultValue);
                     break;
                 case "dividir":
-                    result = Operations.divide(nums);
+                    resultValue = Operations.divide(nums);
+                    formattedResult = "La división es " + parser.currencyFormat.format(resultValue);
                     break;
                 case "porcentaje":
-                    if (nums.size() >= 2)
-                        result = Operations.percentage(nums.get(0), nums.get(1));
+                    if (nums.size() >= 2) {
+                        resultValue = Operations.percentage(nums.get(0), nums.get(1));
+                        formattedResult = "El " + parser.percentageFormat.format(nums.get(1) / 100) + " de " + parser.currencyFormat.format(nums.get(0)) + " es " + parser.currencyFormat.format(resultValue);
+                    } else {
+                        throw new Exception("Se necesitan al menos dos números para 'porcentaje'.");
+                    }
                     break;
                 case "margen_ganancia":
-                    if (nums.size() >= 2)
-                        result = Operations.margen_ganancia(nums.get(0), nums.get(1));
+                    if (nums.size() >= 2) {
+                        double ganancia = Operations.calculateGanancia(nums.get(0), nums.get(1));
+                        double margen = Operations.margen_ganancia(nums.get(0), nums.get(1));
+                        formattedResult = "El margen de ganancia es: " + parser.currencyFormat.format(ganancia) + "\n✅ El margen de ganancia porcentual es: " + parser.percentageFormat.format(margen / 100);
+                    } else {
+                        throw new Exception("Se necesitan al menos dos números para 'margen_ganancia'.");
+                    }
                     break;
                 case "IVA":
-                    if (nums.size() >= 1)
-                        result = Operations.iva(nums.get(0));
+                    if (nums.size() >= 1) {
+                        double ivaAmount = Operations.calculateIVAAmount(nums.get(0));
+                        resultValue = Operations.iva(nums.get(0)); // Store total with IVA
+                        formattedResult = "El IVA de " + parser.currencyFormat.format(nums.get(0)) + " son " + parser.currencyFormat.format(ivaAmount) + ". Dando un total de " + parser.currencyFormat.format(resultValue);
+                    } else {
+                        throw new Exception("Se necesita un número para 'IVA'.");
+                    }
                     break;
                 case "ISR":
-                    if (nums.size() >= 1)
-                        result = Operations.isr(nums.get(0));
+                    if (nums.size() >= 1) {
+                        resultValue = Operations.isr(nums.get(0));
+                        formattedResult = "El ISR para " + parser.currencyFormat.format(nums.get(0)) + " es " + parser.currencyFormat.format(resultValue);
+                    } else {
+                        throw new Exception("Se necesita un número para 'ISR'.");
+                    }
                     break;
                 case "ISN":
-                    if (nums.size() >= 1)
-                        result = Operations.isn(nums.get(0));
+                    if (nums.size() >= 1) {
+                        double isnAmount = Operations.calculateISNAmount(nums.get(0));
+                        resultValue = Operations.isn(nums.get(0)); // Store total with ISN
+                        formattedResult = "El ISN de " + parser.currencyFormat.format(nums.get(0)) + " son " + parser.currencyFormat.format(isnAmount) + ". Dando un total de " + parser.currencyFormat.format(resultValue);
+                    } else {
+                        throw new Exception("Se necesita un número para 'ISN'.");
+                    }
                     break;
                 case "ISH":
-                    if (nums.size() >= 1)
-                        result = Operations.ish(nums.get(0));
+                    if (nums.size() >= 1) {
+                        double ishAmount = Operations.calculateISHAmount(nums.get(0));
+                        resultValue = Operations.ish(nums.get(0)); // Store total with ISH
+                        formattedResult = "El ISH de " + parser.currencyFormat.format(nums.get(0)) + " son " + parser.currencyFormat.format(ishAmount) + ". Dando un total de " + parser.currencyFormat.format(resultValue);
+                    } else {
+                        throw new Exception("Se necesita un número para 'ISH'.");
+                    }
                     break;
                 case "ISAN":
-                    if (nums.size() >= 1)
-                        result = Operations.isan(nums.get(0));
+                    if (nums.size() >= 1) {
+                        resultValue = Operations.isan(nums.get(0));
+                        formattedResult = "El ISAN del vehículo que costó " + parser.currencyFormat.format(nums.get(0)) + " es " + parser.currencyFormat.format(resultValue);
+                    } else {
+                        throw new Exception("Se necesita un número para 'ISAN'.");
+                    }
                     break;
                 case "ISAI":
-                    if (nums.size() >= 1)
-                        result = Operations.isai(nums.get(0));
+                    if (nums.size() >= 1) {
+                        resultValue = Operations.isai(nums.get(0));
+                        formattedResult = "El ISAI de " + parser.currencyFormat.format(nums.get(0)) + " es " + parser.currencyFormat.format(resultValue);
+                    } else {
+                        throw new Exception("Se necesita un número para 'ISAI'.");
+                    }
                     break;
                 default:
                     output += "⚠ Error: Comando no reconocido.\n";
+                    break;
             }
 
-            if (result != null) {
-                output += "✅ " + result;
+            // Only append formattedResult if it was set by a recognized command
+            if (!formattedResult.isEmpty()) {
+                output += "✅ " + formattedResult;
+            } else if (!Double.isNaN(resultValue)) { // If it was a recognized command that returned a number, but no specific format was applied yet
+                 output += "✅ Resultado: " + parser.currencyFormat.format(resultValue); // Fallback to currency format for generic numbers
             } else {
-                output += "❌ Error: No se pudo calcular.";
+                output += "❌ Error: No se pudo calcular o el comando no devolvió un resultado formateado.";
             }
 
         } catch (Exception e) {
@@ -244,12 +404,12 @@ class CUP$Parser$actions {
 
         RESULT = output;
     
-              CUP$Parser$result = parser.getSymbolFactory().newSymbol("comando",1, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("comando",2, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 4: // lista_numeros ::= NUMERO 
+          case 9: // lista_numeros ::= expresion_numerica 
             {
               ArrayList<Double> RESULT =null;
 		int nleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
@@ -260,12 +420,12 @@ class CUP$Parser$actions {
         l.add(n);
         RESULT = l;
     
-              CUP$Parser$result = parser.getSymbolFactory().newSymbol("lista_numeros",2, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("lista_numeros",3, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 5: // lista_numeros ::= lista_numeros COMA NUMERO 
+          case 10: // lista_numeros ::= lista_numeros COMA expresion_numerica 
             {
               ArrayList<Double> RESULT =null;
 		int listaleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
@@ -278,7 +438,7 @@ class CUP$Parser$actions {
         lista.add(n);
         RESULT = lista;
     
-              CUP$Parser$result = parser.getSymbolFactory().newSymbol("lista_numeros",2, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("lista_numeros",3, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
 

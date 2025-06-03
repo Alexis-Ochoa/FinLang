@@ -65,12 +65,12 @@ class FinLangLexer implements Scanner {
   private static final String ZZ_CMAP_BLOCKS_PACKED_0 =
     "\11\0\2\1\1\2\2\1\22\0\1\1\7\0\1\3"+
     "\1\4\2\0\1\5\1\6\1\7\1\0\12\10\1\0"+
-    "\1\11\5\0\1\12\6\0\1\13\1\14\4\0\1\15"+
-    "\3\0\1\16\1\17\2\0\1\20\10\0\1\21\1\0"+
-    "\1\22\1\0\1\23\1\24\1\25\1\0\1\26\1\0"+
-    "\1\27\1\30\1\0\1\31\1\32\1\33\1\34\1\35"+
-    "\1\0\1\36\1\37\1\40\1\41\1\42\16\0\1\2"+
-    "\u01a2\0\2\2\326\0\u0100\2";
+    "\1\11\1\0\1\12\3\0\1\13\6\14\1\15\1\16"+
+    "\4\14\1\17\3\14\1\20\1\21\2\14\1\22\4\14"+
+    "\4\0\1\23\1\0\1\24\1\14\1\25\1\26\1\27"+
+    "\1\14\1\30\1\14\1\31\1\32\1\14\1\33\1\34"+
+    "\1\35\1\36\1\37\1\14\1\40\1\41\1\42\1\43"+
+    "\1\44\4\14\12\0\1\2\u01a2\0\2\2\326\0\u0100\2";
 
   private static int [] zzUnpackcmap_blocks() {
     int [] result = new int[1024];
@@ -98,12 +98,14 @@ class FinLangLexer implements Scanner {
 
   private static final String ZZ_ACTION_PACKED_0 =
     "\1\0\1\1\1\2\1\3\1\4\1\5\1\1\1\6"+
-    "\1\7\6\1\11\0\1\6\1\0\1\10\1\11\1\12"+
-    "\1\13\6\0\1\14\1\15\13\0\1\16\4\0\1\17"+
-    "\1\20\13\0\1\21\1\0\1\22\3\0\1\23";
+    "\1\7\1\10\7\11\1\0\10\11\1\6\1\11\1\12"+
+    "\1\13\1\14\1\15\6\11\1\16\1\17\1\12\1\13"+
+    "\1\14\1\15\6\11\1\16\1\17\5\11\1\20\4\11"+
+    "\1\21\1\20\1\22\3\11\1\21\1\22\10\11\1\23"+
+    "\1\11\1\24\1\23\1\11\1\24\2\11\2\25";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[74];
+    int [] result = new int[88];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -128,19 +130,20 @@ class FinLangLexer implements Scanner {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\43\0\43\0\43\0\43\0\43\0\106\0\151"+
-    "\0\43\0\214\0\257\0\322\0\365\0\u0118\0\u013b\0\u015e"+
-    "\0\u0181\0\u01a4\0\u01c7\0\u01ea\0\u020d\0\u0230\0\u0253\0\u0276"+
-    "\0\u015e\0\u0299\0\u02bc\0\u02df\0\u0302\0\u0325\0\u0348\0\u036b"+
-    "\0\u038e\0\u03b1\0\u03d4\0\u03f7\0\u041a\0\u043d\0\u0460\0\u0483"+
-    "\0\u04a6\0\u04c9\0\u04ec\0\u050f\0\u0532\0\u0555\0\u0578\0\u059b"+
-    "\0\u05be\0\u05e1\0\u0604\0\u0627\0\u064a\0\u066d\0\u0690\0\u06b3"+
-    "\0\u06d6\0\u06f9\0\u071c\0\u073f\0\u0762\0\u0785\0\u07a8\0\u07cb"+
-    "\0\u07ee\0\u0811\0\u0834\0\u0857\0\u087a\0\u089d\0\u08c0\0\u08e3"+
-    "\0\u0906\0\u0929";
+    "\0\0\0\45\0\45\0\45\0\45\0\45\0\112\0\157"+
+    "\0\45\0\45\0\224\0\271\0\336\0\u0103\0\u0128\0\u014d"+
+    "\0\u0172\0\u0197\0\u01bc\0\u01e1\0\u0206\0\u022b\0\u0250\0\u0275"+
+    "\0\u029a\0\u02bf\0\u0197\0\u02e4\0\u0309\0\u032e\0\u0353\0\u0378"+
+    "\0\u039d\0\u03c2\0\u03e7\0\u040c\0\u0431\0\u0456\0\u047b\0\u04a0"+
+    "\0\u04c5\0\u04ea\0\u050f\0\u0534\0\u0559\0\u057e\0\u05a3\0\u05c8"+
+    "\0\u05ed\0\u0612\0\u0637\0\u065c\0\u0681\0\u06a6\0\u06cb\0\u06f0"+
+    "\0\u0715\0\u073a\0\u075f\0\u0784\0\u07a9\0\u07ce\0\u07f3\0\u0818"+
+    "\0\u083d\0\u0862\0\u0887\0\u08ac\0\u08d1\0\u08f6\0\u091b\0\u0940"+
+    "\0\u0965\0\u098a\0\u09af\0\u09d4\0\u09f9\0\u0a1e\0\u0a43\0\u0a68"+
+    "\0\u0a8d\0\u0ab2\0\u0ad7\0\u0afc\0\u0b21\0\u0b46\0\u0b6b\0\u0b90";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[74];
+    int [] result = new int[88];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -164,29 +167,64 @@ class FinLangLexer implements Scanner {
 
   private static final String ZZ_TRANS_PACKED_0 =
     "\1\2\1\3\1\0\1\4\1\5\1\6\1\7\1\2"+
-    "\1\10\1\11\2\2\1\12\7\2\1\13\5\2\1\14"+
-    "\2\2\1\15\1\16\1\17\3\2\53\0\1\10\41\0"+
-    "\1\20\1\10\51\0\1\21\1\22\51\0\1\23\35\0"+
-    "\1\24\16\0\1\25\35\0\1\26\33\0\1\27\56\0"+
-    "\1\30\11\0\1\31\44\0\1\32\1\33\1\0\1\34"+
-    "\1\35\36\0\1\36\72\0\1\37\36\0\1\40\35\0"+
-    "\1\41\47\0\1\42\43\0\1\43\35\0\1\44\24\0"+
-    "\1\45\1\46\26\0\1\33\42\0\1\34\42\0\1\35"+
-    "\42\0\1\36\70\0\1\47\41\0\1\50\54\0\1\51"+
-    "\25\0\1\52\57\0\1\53\24\0\1\54\21\0\1\45"+
-    "\42\0\1\46\65\0\1\55\43\0\1\56\44\0\1\57"+
-    "\40\0\1\60\37\0\1\61\56\0\1\62\33\0\1\63"+
-    "\46\0\1\64\44\0\1\65\40\0\1\66\45\0\1\67"+
-    "\5\0\1\62\77\0\1\70\25\0\1\71\52\0\1\72"+
-    "\51\0\1\73\3\0\1\67\42\0\1\70\67\0\1\74"+
-    "\43\0\1\75\35\0\1\76\42\0\1\77\43\0\1\100"+
-    "\47\0\1\101\45\0\1\102\31\0\1\103\45\0\1\104"+
-    "\37\0\1\105\56\0\1\106\5\0\1\104\74\0\1\107"+
-    "\10\0\1\106\64\0\1\110\46\0\1\111\35\0\1\112"+
-    "\21\0\1\112\41\0";
+    "\1\10\1\11\1\12\3\13\1\14\7\13\1\15\5\13"+
+    "\1\16\2\13\1\17\1\20\1\21\3\13\55\0\1\10"+
+    "\43\0\1\22\1\10\44\0\1\13\2\0\32\13\10\0"+
+    "\1\13\2\0\6\13\1\23\1\24\22\13\10\0\1\13"+
+    "\2\0\16\13\1\25\13\13\10\0\1\13\2\0\11\13"+
+    "\1\26\16\13\1\27\1\13\10\0\1\13\2\0\23\13"+
+    "\1\30\6\13\10\0\1\13\2\0\14\13\1\31\15\13"+
+    "\10\0\1\13\2\0\30\13\1\32\1\13\10\0\1\33"+
+    "\44\0\1\13\2\0\1\34\1\13\1\35\1\13\1\36"+
+    "\1\37\24\13\10\0\1\13\2\0\1\40\31\13\10\0"+
+    "\1\13\2\0\31\13\1\41\10\0\1\13\2\0\25\13"+
+    "\1\42\4\13\10\0\1\13\2\0\20\13\1\43\11\13"+
+    "\10\0\1\13\2\0\25\13\1\44\4\13\10\0\1\13"+
+    "\2\0\26\13\1\45\3\13\10\0\1\13\2\0\21\13"+
+    "\1\46\10\13\10\0\1\13\2\0\3\13\1\47\1\50"+
+    "\25\13\1\0\1\51\6\0\1\13\2\0\32\13\1\0"+
+    "\1\52\6\0\1\13\2\0\32\13\1\0\1\53\6\0"+
+    "\1\13\2\0\32\13\1\0\1\54\6\0\1\13\2\0"+
+    "\32\13\10\0\1\13\2\0\16\13\1\55\13\13\10\0"+
+    "\1\13\2\0\15\13\1\56\14\13\10\0\1\13\2\0"+
+    "\27\13\1\57\2\13\10\0\1\13\2\0\12\13\1\60"+
+    "\17\13\10\0\1\13\2\0\27\13\1\61\2\13\10\0"+
+    "\1\13\2\0\11\13\1\62\20\13\1\0\1\63\6\0"+
+    "\1\13\2\0\32\13\1\0\1\64\6\0\1\13\2\0"+
+    "\32\13\1\0\1\51\44\0\1\52\44\0\1\53\44\0"+
+    "\1\54\53\0\1\13\2\0\13\13\1\65\16\13\10\0"+
+    "\1\13\2\0\14\13\1\66\15\13\10\0\1\13\2\0"+
+    "\16\13\1\67\13\13\10\0\1\13\2\0\14\13\1\70"+
+    "\15\13\10\0\1\13\2\0\11\13\1\71\20\13\10\0"+
+    "\1\13\2\0\25\13\1\72\4\13\1\0\1\63\44\0"+
+    "\1\64\53\0\1\13\2\0\16\13\1\73\13\13\10\0"+
+    "\1\13\2\0\22\13\1\74\7\13\10\0\1\13\2\0"+
+    "\24\13\1\75\5\13\10\0\1\13\2\0\22\13\1\76"+
+    "\7\13\10\0\1\13\2\0\25\13\1\77\4\13\1\0"+
+    "\1\100\6\0\1\13\2\0\32\13\10\0\1\13\2\0"+
+    "\25\13\1\101\4\13\10\0\1\13\2\0\10\13\1\102"+
+    "\21\13\10\0\1\13\2\0\20\13\1\103\11\13\10\0"+
+    "\1\13\2\0\27\13\1\104\2\13\1\0\1\105\6\0"+
+    "\1\13\2\0\32\13\1\0\1\100\44\0\1\106\6\0"+
+    "\1\13\2\0\32\13\10\0\1\13\2\0\15\13\1\107"+
+    "\14\13\10\0\1\13\2\0\16\13\1\110\13\13\10\0"+
+    "\1\13\2\0\11\13\1\111\20\13\1\0\1\105\44\0"+
+    "\1\106\53\0\1\13\2\0\11\13\1\112\20\13\10\0"+
+    "\1\13\2\0\12\13\1\113\17\13\10\0\1\13\2\0"+
+    "\17\13\1\114\12\13\10\0\1\13\2\0\22\13\1\115"+
+    "\7\13\10\0\1\13\2\0\11\13\1\116\20\13\10\0"+
+    "\1\13\2\0\14\13\1\117\15\13\10\0\1\13\2\0"+
+    "\11\13\1\120\20\13\10\0\1\13\2\0\25\13\1\121"+
+    "\4\13\1\0\1\122\6\0\1\13\2\0\32\13\10\0"+
+    "\1\13\2\0\22\13\1\123\7\13\1\0\1\124\6\0"+
+    "\1\13\2\0\32\13\1\0\1\122\53\0\1\13\2\0"+
+    "\12\13\1\125\17\13\1\0\1\124\53\0\1\13\2\0"+
+    "\16\13\1\126\13\13\10\0\1\13\2\0\11\13\1\127"+
+    "\20\13\1\0\1\130\6\0\1\13\2\0\32\13\1\0"+
+    "\1\130\43\0";
 
   private static int [] zzUnpacktrans() {
-    int [] result = new int[2380];
+    int [] result = new int[2997];
     int offset = 0;
     offset = zzUnpacktrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -229,12 +267,10 @@ class FinLangLexer implements Scanner {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\1\0\5\11\2\1\1\11\6\1\11\0\1\1\1\0"+
-    "\4\1\6\0\2\1\13\0\1\1\4\0\2\1\13\0"+
-    "\1\1\1\0\1\1\3\0\1\1";
+    "\1\0\5\11\2\1\2\11\7\1\1\0\106\1";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[74];
+    int [] result = new int[88];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -313,9 +349,8 @@ class FinLangLexer implements Scanner {
   /* user code: */
 
 private ComplexSymbolFactory symbolFactory;
-
 public FinLangLexer(java.io.Reader r, ComplexSymbolFactory csf) {
-    super();  // llama al constructor base con Reader
+    super();
     this.symbolFactory = csf;
 }
 
@@ -330,8 +365,6 @@ private Symbol symbol(int type, Object value) {
         new Location(yyline+1, yycolumn+1),
         new Location(yyline+1, yycolumn+yylength()), value);
 }
-
-// No declares next_token(), JFlex lo genera con %cup
 
 
 
@@ -763,97 +796,107 @@ private Symbol symbol(int type, Object value) {
             { return symbol(sym.error);
             }
           // fall through
-          case 20: break;
+          case 22: break;
           case 2:
             { /* ignorar espacios en blanco */
             }
           // fall through
-          case 21: break;
+          case 23: break;
           case 3:
             { return symbol(sym.LBRACKET);
             }
           // fall through
-          case 22: break;
+          case 24: break;
           case 4:
             { return symbol(sym.RBRACKET);
             }
           // fall through
-          case 23: break;
+          case 25: break;
           case 5:
             { return symbol(sym.COMA);
             }
           // fall through
-          case 24: break;
+          case 26: break;
           case 6:
             { return symbol(sym.NUMERO, Double.parseDouble(yytext()));
             }
           // fall through
-          case 25: break;
+          case 27: break;
           case 7:
             { return symbol(sym.SEMIC);
             }
           // fall through
-          case 26: break;
-          case 8:
-            { return symbol(sym.COMANDO, "ISH");
-            }
-          // fall through
-          case 27: break;
-          case 9:
-            { return symbol(sym.COMANDO, "ISN");
-            }
-          // fall through
           case 28: break;
-          case 10:
-            { return symbol(sym.COMANDO, "ISR");
+          case 8:
+            { return symbol(sym.EQ);
             }
           // fall through
           case 29: break;
-          case 11:
-            { return symbol(sym.COMANDO, "IVA");
+          case 9:
+            { return symbol(sym.ID, yytext());
             }
           // fall through
           case 30: break;
-          case 12:
-            { return symbol(sym.COMANDO, "ISAI");
+          case 10:
+            { return symbol(sym.COMANDO, "ISH");
             }
           // fall through
           case 31: break;
-          case 13:
-            { return symbol(sym.COMANDO, "ISAN");
+          case 11:
+            { return symbol(sym.COMANDO, "ISN");
             }
           // fall through
           case 32: break;
-          case 14:
-            { return symbol(sym.COMANDO, "sumar");
+          case 12:
+            { return symbol(sym.COMANDO, "ISR");
             }
           // fall through
           case 33: break;
-          case 15:
-            { return symbol(sym.COMANDO, "restar");
+          case 13:
+            { return symbol(sym.COMANDO, "IVA");
             }
           // fall through
           case 34: break;
-          case 16:
-            { return symbol(sym.COMANDO, "dividir");
+          case 14:
+            { return symbol(sym.COMANDO, "ISAI");
             }
           // fall through
           case 35: break;
-          case 17:
-            { return symbol(sym.COMANDO, "porcentaje");
+          case 15:
+            { return symbol(sym.COMANDO, "ISAN");
             }
           // fall through
           case 36: break;
-          case 18:
-            { return symbol(sym.COMANDO, "multiplicar");
+          case 16:
+            { return symbol(sym.COMANDO, "sumar");
             }
           // fall through
           case 37: break;
-          case 19:
-            { return symbol(sym.COMANDO, "margen_ganancia");
+          case 17:
+            { return symbol(sym.COMANDO, "restar");
             }
           // fall through
           case 38: break;
+          case 18:
+            { return symbol(sym.COMANDO, "dividir");
+            }
+          // fall through
+          case 39: break;
+          case 19:
+            { return symbol(sym.COMANDO, "porcentaje");
+            }
+          // fall through
+          case 40: break;
+          case 20:
+            { return symbol(sym.COMANDO, "multiplicar");
+            }
+          // fall through
+          case 41: break;
+          case 21:
+            { return symbol(sym.COMANDO, "margen_ganancia");
+            }
+          // fall through
+          case 42: break;
           default:
             zzScanError(ZZ_NO_MATCH);
         }
