@@ -27,11 +27,11 @@ start with programa;
 
 programa ::= comando:output programa:resto
     {:
-        RESULT = output + "\n" + resto; // 🔹 Concatena resultados en múltiples líneas
+        RESULT = output + "\n" + resto;
     :}
   | comando:output
     {:
-        RESULT = output; // 🔹 Última línea
+        RESULT = output;
     :}
 ;
 
@@ -42,7 +42,7 @@ comando ::=
         output += "🔢 Entrada: " + nums + "\n";
 
         try {
-            Double result = null;
+            String result = null;
             switch (cmd.trim()) {
                 case "sumar":
                     result = Operations.plus(nums);
@@ -60,7 +60,7 @@ comando ::=
                     if (nums.size() >= 2)
                         result = Operations.percentage(nums.get(0), nums.get(1));
                     break;
-                case "margen_ganancia":  // 🔹 Se vuelve a incluir `margen_ganancia`
+                case "margen_ganancia":
                     if (nums.size() >= 2)
                         result = Operations.margen_ganancia(nums.get(0), nums.get(1));
                     break;
@@ -93,7 +93,7 @@ comando ::=
             }
 
             if (result != null) {
-                output += "✅ Resultado: " + String.format("%.2f", result);
+                output += "✅ " + result;
             } else {
                 output += "❌ Error: No se pudo calcular.";
             }

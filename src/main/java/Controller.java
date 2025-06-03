@@ -40,12 +40,6 @@ public class Controller {
         stage.setIconified(true);
     }
 
-    private String analyzeText(String text) {
-        // Aquí puedes modificar el texto como necesites
-        return text.toUpperCase(); // Ejemplo: convierte todo a mayúsculas
-    }
-
-
     @FXML
     private void run() {
         String userInput = codeEditor.getText().trim(); // Obtiene el texto ingresado
@@ -57,17 +51,16 @@ public class Controller {
 
         try {
             FinLangLexer lexer = new FinLangLexer(new StringReader(userInput), symbolFactory);
-            lexer.yyreset(new StringReader(userInput)); // Asegurar que recibe correctamente la entrada
+            lexer.yyreset(new StringReader(userInput));
 
             Parser parser = new Parser(lexer, symbolFactory);
             Object result = parser.parse().value;
             System.out.println("📌 Resultado final desde el parser: " + result);
 
-            // 🔍 Depuración: Imprimir el resultado en consola antes de enviarlo a outputArea
             System.out.println("Resultado desde el parser: " + result);
 
             if (result != null) {
-                outputArea.setText(result.toString()); // 🔹 Ahora mostrará el resultado en la interfaz
+                outputArea.setText(result.toString());
             } else {
                 outputArea.setText("⚠ Error: No se pudo calcular un resultado válido.");
             }
@@ -95,11 +88,11 @@ public class Controller {
     }
 
     private void updateLineNumbers() {
-        int lines = codeEditor.getParagraphs().size(); // Obtiene la cantidad exacta de líneas visibles
+        int lines = codeEditor.getParagraphs().size();
 
         lineNumbers.getItems().clear();
         for (int i = 1; i <= lines; i++) {
-            lineNumbers.getItems().add(String.valueOf(i)); // Agregar número de línea correcto
+            lineNumbers.getItems().add(String.valueOf(i));
         }
     }
 }

@@ -1,6 +1,6 @@
 .btnNav {
-    -fx-font-size: 20px; /* Tamaño del texto */
-    -fx-font-weight: bold; /* Texto en negrita (opcional) */
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
     -fx-background-color: transparent;
     -fx-text-fill: white;
 }
@@ -56,9 +56,9 @@ Label {
 
 #lineNumbers {
     -fx-control-inner-background: #1e1f22;
-    -fx-cell-size: 20px; /* 🔹 Ajuste fino para alineación con `codeEditor` */
+    -fx-cell-size: 20px;
     -fx-text-fill: white;
-    -fx-font-size: 13px; /* 🔹 Números más pequeños para que no dominen el espacio */
+    -fx-font-size: 13px;
     -fx-font-family: "Courier New";
     -fx-focus-color: transparent;
     -fx-faint-focus-color: transparent;
@@ -66,8 +66,8 @@ Label {
 }
 
 #lineNumbers .list-cell {
-    -fx-padding: 2px 0px; /* 🔹 Reduce el espacio entre números */
-    -fx-font-size: 13px; /* 🔹 Tamaño acorde a `lineNumbers` */
+    -fx-padding: 2px 0px;
+    -fx-font-size: 13px;
 }
 
 #codeEditor {

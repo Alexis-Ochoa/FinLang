@@ -66,7 +66,7 @@ WhiteSpace = [ \t\r\n\f]
 ";"               { return symbol(sym.SEMIC); }
 
 /* Números */
-[0-9]+("."[0-9]+)? { return symbol(sym.NUMERO, Double.parseDouble(yytext())); }
+"-"?[0-9]+("."[0-9]+)? { return symbol(sym.NUMERO, Double.parseDouble(yytext())); }
 
 {WhiteSpace}      { /* ignorar espacios en blanco */ }
 

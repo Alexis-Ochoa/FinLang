@@ -147,7 +147,7 @@ class CUP$Parser$actions {
 		int restoright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		Object resto = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
-        RESULT = output + "\n" + resto; // 🔹 Concatena resultados en múltiples líneas
+        RESULT = output + "\n" + resto;
     
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("programa",0, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
@@ -161,7 +161,7 @@ class CUP$Parser$actions {
 		int outputright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		Object output = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
-        RESULT = output; // 🔹 Última línea
+        RESULT = output;
     
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("programa",0, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
@@ -182,7 +182,7 @@ class CUP$Parser$actions {
         output += "🔢 Entrada: " + nums + "\n";
 
         try {
-            Double result = null;
+            String result = null;
             switch (cmd.trim()) {
                 case "sumar":
                     result = Operations.plus(nums);
@@ -200,7 +200,7 @@ class CUP$Parser$actions {
                     if (nums.size() >= 2)
                         result = Operations.percentage(nums.get(0), nums.get(1));
                     break;
-                case "margen_ganancia":  // 🔹 Se vuelve a incluir `margen_ganancia`
+                case "margen_ganancia":
                     if (nums.size() >= 2)
                         result = Operations.margen_ganancia(nums.get(0), nums.get(1));
                     break;
@@ -233,7 +233,7 @@ class CUP$Parser$actions {
             }
 
             if (result != null) {
-                output += "✅ Resultado: " + String.format("%.2f", result);
+                output += "✅ " + result;
             } else {
                 output += "❌ Error: No se pudo calcular.";
             }
