@@ -45,7 +45,7 @@ nonterminal Object comando;
 nonterminal ArrayList<Double> lista_numeros;
 nonterminal Object declaracion_variable; // New non-terminal for variable declaration/assignment
 nonterminal Double expresion_numerica;   // New non-terminal for numeric expressions (numbers or variables)
-
+nonterminal Double valor_comando; // Para capturar el resultado numérico de un comando
 
 /* Precedencias */
 precedence left COMA;
@@ -86,7 +86,7 @@ declaracion_variable ::=
     :}
 ;
 
-// Nueva regla para expresiones numéricas que pueden ser números o variables
+// Nueva regla para expresiones numéricas que pueden ser números, variables o el resultado de un comando
 expresion_numerica ::=
     NUMERO:n
     {:
@@ -101,17 +101,109 @@ expresion_numerica ::=
             RESULT = Double.NaN; // Indicate an error
         }
     :}
+  | valor_comando:vc
+    {:
+        RESULT = vc;
+    :}
 ;
 
+// Regla para evaluar un comando que devuelve un valor numérico (sin punto y coma)
+valor_comando ::=
+    COMANDO:cmd LBRACKET lista_numeros:nums RBRACKET
+    {:
+        double resultValue = Double.NaN; // Default to NaN
 
+        try {
+            switch (cmd.trim()) {
+                case "sumar":
+                    resultValue = Operations.plus(nums);
+                    break;
+                case "restar":
+                    resultValue = Operations.minus(nums);
+                    break;
+                case "multiplicar":
+                    resultValue = Operations.times(nums);
+                    break;
+                case "dividir":
+                    resultValue = Operations.divide(nums);
+                    break;
+                case "porcentaje":
+                    if (nums.size() >= 2) {
+                        resultValue = Operations.percentage(nums.get(0), nums.get(1));
+                    } else {
+                        throw new Exception("Se necesitan al menos dos números para 'porcentaje'.");
+                    }
+                    break;
+                case "margen_ganancia":
+                    if (nums.size() >= 2) {
+                        resultValue = Operations.margen_ganancia(nums.get(0), nums.get(1));
+                    } else {
+                        throw new Exception("Se necesitan al menos dos números para 'margen_ganancia'.");
+                    }
+                    break;
+                case "IVA":
+                    if (nums.size() >= 1) {
+                        resultValue = Operations.iva(nums.get(0));
+                    } else {
+                        throw new Exception("Se necesita un número para 'IVA'.");
+                    }
+                    break;
+                case "ISR":
+                    if (nums.size() >= 1) {
+                        resultValue = Operations.isr(nums.get(0));
+                    } else {
+                        throw new Exception("Se necesita un número para 'ISR'.");
+                    }
+                    break;
+                case "ISN":
+                    if (nums.size() >= 1) {
+                        resultValue = Operations.isn(nums.get(0));
+                    } else {
+                        throw new Exception("Se necesita un número para 'ISN'.");
+                    }
+                    break;
+                case "ISH":
+                    if (nums.size() >= 1) {
+                        resultValue = Operations.ish(nums.get(0));
+                    } else {
+                        throw new Exception("Se necesita un número para 'ISH'.");
+                    }
+                    break;
+                case "ISAN":
+                    if (nums.size() >= 1) {
+                        resultValue = Operations.isan(nums.get(0));
+                    } else {
+                        throw new Exception("Se necesita un número para 'ISAN'.");
+                    }
+                    break;
+                case "ISAI":
+                    if (nums.size() >= 1) {
+                        resultValue = Operations.isai(nums.get(0));
+                    } else {
+                        throw new Exception("Se necesita un número para 'ISAI'.");
+                    }
+                    break;
+                default:
+                    throw new Exception("Comando no reconocido para asignación de valor.");
+            }
+        } catch (Exception e) {
+            System.err.println("Error al evaluar comando como valor: " + e.getMessage());
+            resultValue = Double.NaN; // Marcar como error
+        }
+
+        RESULT = resultValue;
+    :}
+;
+
+// Regla 'comando' original (para cuando el comando se ejecuta directamente y queremos imprimir el resultado formateado)
 comando ::=
     COMANDO:cmd LBRACKET lista_numeros:nums RBRACKET SEMIC
     {:
-        String output = "📌 Comando: " + cmd + "\n";
+        String output = "\n📌 Comando: " + cmd + "\n";
         output += "🔢 Entrada: " + nums + "\n";
 
         try {
-            double resultValue = Double.NaN; // Default to NaN in case no operation matches
+            double resultValue = Double.NaN;
             String formattedResult = "";
 
             switch (cmd.trim()) {
@@ -141,18 +233,23 @@ comando ::=
                     break;
                 case "margen_ganancia":
                     if (nums.size() >= 2) {
-                        double ganancia = Operations.calculateGanancia(nums.get(0), nums.get(1));
-                        double margen = Operations.margen_ganancia(nums.get(0), nums.get(1));
-                        formattedResult = "El margen de ganancia es: " + parser.currencyFormat.format(ganancia) + "\n✅ El margen de ganancia porcentual es: " + parser.percentageFormat.format(margen / 100);
+                        // Aquí, margen_ganancia en Operations devuelve el porcentaje.
+                        // Calculamos la ganancia neta aquí para el formato.
+                        double salesA = nums.get(0);
+                        double salesC = nums.get(1);
+                        double gananciaNeta = salesA - salesC;
+                        resultValue = Operations.margen_ganancia(salesA, salesC); // Esto es el porcentaje
+                        formattedResult = "El margen de ganancia es: " + parser.currencyFormat.format(gananciaNeta) + "\n✅ El margen de ganancia porcentual es: " + parser.percentageFormat.format(resultValue / 100);
                     } else {
                         throw new Exception("Se necesitan al menos dos números para 'margen_ganancia'.");
                     }
                     break;
                 case "IVA":
                     if (nums.size() >= 1) {
-                        double ivaAmount = Operations.calculateIVAAmount(nums.get(0));
-                        resultValue = Operations.iva(nums.get(0)); // Store total with IVA
-                        formattedResult = "El IVA de " + parser.currencyFormat.format(nums.get(0)) + " son " + parser.currencyFormat.format(ivaAmount) + ". Dando un total de " + parser.currencyFormat.format(resultValue);
+                        double originalAmount = nums.get(0);
+                        resultValue = Operations.iva(originalAmount); // Esto es el total con IVA
+                        double ivaAmount = resultValue - originalAmount; // Calculamos el monto de IVA aquí
+                        formattedResult = "El IVA de " + parser.currencyFormat.format(originalAmount) + " son " + parser.currencyFormat.format(ivaAmount) + ". Dando un total de " + parser.currencyFormat.format(resultValue);
                     } else {
                         throw new Exception("Se necesita un número para 'IVA'.");
                     }
@@ -167,18 +264,20 @@ comando ::=
                     break;
                 case "ISN":
                     if (nums.size() >= 1) {
-                        double isnAmount = Operations.calculateISNAmount(nums.get(0));
-                        resultValue = Operations.isn(nums.get(0)); // Store total with ISN
-                        formattedResult = "El ISN de " + parser.currencyFormat.format(nums.get(0)) + " son " + parser.currencyFormat.format(isnAmount) + ". Dando un total de " + parser.currencyFormat.format(resultValue);
+                        double originalAmount = nums.get(0);
+                        resultValue = Operations.isn(originalAmount); // Esto es el total con ISN
+                        double isnAmount = resultValue - originalAmount; // Calculamos el monto de ISN aquí
+                        formattedResult = "El ISN de " + parser.currencyFormat.format(originalAmount) + " son " + parser.currencyFormat.format(isnAmount) + ". Dando un total de " + parser.currencyFormat.format(resultValue);
                     } else {
                         throw new Exception("Se necesita un número para 'ISN'.");
                     }
                     break;
                 case "ISH":
                     if (nums.size() >= 1) {
-                        double ishAmount = Operations.calculateISHAmount(nums.get(0));
-                        resultValue = Operations.ish(nums.get(0)); // Store total with ISH
-                        formattedResult = "El ISH de " + parser.currencyFormat.format(nums.get(0)) + " son " + parser.currencyFormat.format(ishAmount) + ". Dando un total de " + parser.currencyFormat.format(resultValue);
+                        double originalAmount = nums.get(0);
+                        resultValue = Operations.ish(originalAmount); // Esto es el total con ISH
+                        double ishAmount = resultValue - originalAmount; // Calculamos el monto de ISH aquí
+                        formattedResult = "El ISH de " + parser.currencyFormat.format(originalAmount) + " son " + parser.currencyFormat.format(ishAmount) + ". Dando un total de " + parser.currencyFormat.format(resultValue);
                     } else {
                         throw new Exception("Se necesita un número para 'ISH'.");
                     }
@@ -204,11 +303,10 @@ comando ::=
                     break;
             }
 
-            // Only append formattedResult if it was set by a recognized command
             if (!formattedResult.isEmpty()) {
                 output += "✅ " + formattedResult;
-            } else if (!Double.isNaN(resultValue)) { // If it was a recognized command that returned a number, but no specific format was applied yet
-                 output += "✅ Resultado: " + parser.currencyFormat.format(resultValue); // Fallback to currency format for generic numbers
+            } else if (!Double.isNaN(resultValue)) {
+                 output += "✅ Resultado: " + parser.currencyFormat.format(resultValue);
             } else {
                 output += "❌ Error: No se pudo calcular o el comando no devolvió un resultado formateado.";
             }
@@ -222,14 +320,14 @@ comando ::=
 ;
 
 lista_numeros ::=
-    expresion_numerica:n // Changed from NUMERO to expresion_numerica to allow variables
+    expresion_numerica:n
     {:
         ArrayList<Double> l = new ArrayList<>();
         l.add(n);
         RESULT = l;
     :}
   |
-    lista_numeros:lista COMA expresion_numerica:n // Changed from NUMERO to expresion_numerica
+    lista_numeros:lista COMA expresion_numerica:n
     {:
         lista.add(n);
         RESULT = lista;

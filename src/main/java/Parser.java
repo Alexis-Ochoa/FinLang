@@ -30,10 +30,11 @@ public class Parser extends java_cup.runtime.lr_parser {
   /** Production table. */
   protected static final short _production_table[][] = 
     unpackFromStrings(new String[] {
-    "\000\013\000\002\002\004\000\002\002\004\000\002\002" +
+    "\000\015\000\002\002\004\000\002\002\004\000\002\002" +
     "\003\000\002\003\003\000\002\003\003\000\002\006\006" +
-    "\000\002\007\003\000\002\007\003\000\002\004\007\000" +
-    "\002\005\003\000\002\005\005" });
+    "\000\002\007\003\000\002\007\003\000\002\007\003\000" +
+    "\002\010\006\000\002\004\007\000\002\005\003\000\002" +
+    "\005\005" });
 
   /** Access to production table. */
   public short[][] production_table() {return _production_table;}
@@ -41,20 +42,23 @@ public class Parser extends java_cup.runtime.lr_parser {
   /** Parse-action table. */
   protected static final short[][] _action_table = 
     unpackFromStrings(new String[] {
-    "\000\025\000\006\004\005\012\004\001\002\000\004\013" +
-    "\025\001\002\000\004\006\014\001\002\000\010\002\ufffd" +
+    "\000\032\000\006\004\005\012\004\001\002\000\004\013" +
+    "\032\001\002\000\004\006\014\001\002\000\010\002\ufffd" +
     "\004\ufffd\012\ufffd\001\002\000\004\002\013\001\002\000" +
     "\010\002\ufffe\004\ufffe\012\ufffe\001\002\000\010\002\uffff" +
     "\004\005\012\004\001\002\000\004\002\000\001\002\000" +
-    "\004\002\001\001\002\000\006\011\015\012\016\001\002" +
-    "\000\010\005\ufffb\007\ufffb\010\ufffb\001\002\000\010\005" +
-    "\ufffa\007\ufffa\010\ufffa\001\002\000\006\005\ufff8\007\ufff8" +
-    "\001\002\000\006\005\021\007\022\001\002\000\006\011" +
-    "\015\012\016\001\002\000\004\010\023\001\002\000\010" +
-    "\002\ufff9\004\ufff9\012\ufff9\001\002\000\006\005\ufff7\007" +
-    "\ufff7\001\002\000\006\011\015\012\016\001\002\000\004" +
-    "\010\027\001\002\000\010\002\ufffc\004\ufffc\012\ufffc\001" +
-    "\002" });
+    "\004\002\001\001\002\000\010\004\017\011\015\012\016" +
+    "\001\002\000\010\005\ufffb\007\ufffb\010\ufffb\001\002\000" +
+    "\010\005\ufffa\007\ufffa\010\ufffa\001\002\000\004\006\027" +
+    "\001\002\000\006\005\ufff6\007\ufff6\001\002\000\006\005" +
+    "\023\007\024\001\002\000\010\005\ufff9\007\ufff9\010\ufff9" +
+    "\001\002\000\010\004\017\011\015\012\016\001\002\000" +
+    "\004\010\025\001\002\000\010\002\ufff7\004\ufff7\012\ufff7" +
+    "\001\002\000\006\005\ufff5\007\ufff5\001\002\000\010\004" +
+    "\017\011\015\012\016\001\002\000\006\005\023\007\031" +
+    "\001\002\000\010\005\ufff8\007\ufff8\010\ufff8\001\002\000" +
+    "\010\004\017\011\015\012\016\001\002\000\004\010\034" +
+    "\001\002\000\010\002\ufffc\004\ufffc\012\ufffc\001\002" });
 
   /** Access to parse-action table. */
   public short[][] action_table() {return _action_table;}
@@ -62,15 +66,17 @@ public class Parser extends java_cup.runtime.lr_parser {
   /** <code>reduce_goto</code> table. */
   protected static final short[][] _reduce_table = 
     unpackFromStrings(new String[] {
-    "\000\025\000\012\002\006\003\010\004\007\006\005\001" +
+    "\000\032\000\012\002\006\003\010\004\007\006\005\001" +
     "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
     "\000\002\001\001\000\002\001\001\000\012\002\011\003" +
     "\010\004\007\006\005\001\001\000\002\001\001\000\002" +
-    "\001\001\000\006\005\017\007\016\001\001\000\002\001" +
-    "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
-    "\000\004\007\023\001\001\000\002\001\001\000\002\001" +
-    "\001\000\002\001\001\000\004\007\025\001\001\000\002" +
-    "\001\001\000\002\001\001" });
+    "\001\001\000\010\005\020\007\017\010\021\001\001\000" +
+    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\001\001\000\002\001\001\000\002\001\001\000\006\007" +
+    "\025\010\021\001\001\000\002\001\001\000\002\001\001" +
+    "\000\002\001\001\000\010\005\027\007\017\010\021\001" +
+    "\001\000\002\001\001\000\002\001\001\000\006\007\032" +
+    "\010\021\001\001\000\002\001\001\000\002\001\001" });
 
   /** Access to <code>reduce_goto</code> table. */
   public short[][] reduce_table() {return _reduce_table;}
@@ -282,7 +288,118 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 8: // comando ::= COMANDO LBRACKET lista_numeros RBRACKET SEMIC 
+          case 8: // expresion_numerica ::= valor_comando 
+            {
+              Double RESULT =null;
+		int vcleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int vcright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Double vc = (Double)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		
+        RESULT = vc;
+    
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("expresion_numerica",5, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 9: // valor_comando ::= COMANDO LBRACKET lista_numeros RBRACKET 
+            {
+              Double RESULT =null;
+		int cmdleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).left;
+		int cmdright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).right;
+		String cmd = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-3)).value;
+		int numsleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
+		int numsright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
+		ArrayList<Double> nums = (ArrayList<Double>)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+		
+        double resultValue = Double.NaN; // Default to NaN
+
+        try {
+            switch (cmd.trim()) {
+                case "sumar":
+                    resultValue = Operations.plus(nums);
+                    break;
+                case "restar":
+                    resultValue = Operations.minus(nums);
+                    break;
+                case "multiplicar":
+                    resultValue = Operations.times(nums);
+                    break;
+                case "dividir":
+                    resultValue = Operations.divide(nums);
+                    break;
+                case "porcentaje":
+                    if (nums.size() >= 2) {
+                        resultValue = Operations.percentage(nums.get(0), nums.get(1));
+                    } else {
+                        throw new Exception("Se necesitan al menos dos números para 'porcentaje'.");
+                    }
+                    break;
+                case "margen_ganancia":
+                    if (nums.size() >= 2) {
+                        resultValue = Operations.margen_ganancia(nums.get(0), nums.get(1));
+                    } else {
+                        throw new Exception("Se necesitan al menos dos números para 'margen_ganancia'.");
+                    }
+                    break;
+                case "IVA":
+                    if (nums.size() >= 1) {
+                        resultValue = Operations.iva(nums.get(0));
+                    } else {
+                        throw new Exception("Se necesita un número para 'IVA'.");
+                    }
+                    break;
+                case "ISR":
+                    if (nums.size() >= 1) {
+                        resultValue = Operations.isr(nums.get(0));
+                    } else {
+                        throw new Exception("Se necesita un número para 'ISR'.");
+                    }
+                    break;
+                case "ISN":
+                    if (nums.size() >= 1) {
+                        resultValue = Operations.isn(nums.get(0));
+                    } else {
+                        throw new Exception("Se necesita un número para 'ISN'.");
+                    }
+                    break;
+                case "ISH":
+                    if (nums.size() >= 1) {
+                        resultValue = Operations.ish(nums.get(0));
+                    } else {
+                        throw new Exception("Se necesita un número para 'ISH'.");
+                    }
+                    break;
+                case "ISAN":
+                    if (nums.size() >= 1) {
+                        resultValue = Operations.isan(nums.get(0));
+                    } else {
+                        throw new Exception("Se necesita un número para 'ISAN'.");
+                    }
+                    break;
+                case "ISAI":
+                    if (nums.size() >= 1) {
+                        resultValue = Operations.isai(nums.get(0));
+                    } else {
+                        throw new Exception("Se necesita un número para 'ISAI'.");
+                    }
+                    break;
+                default:
+                    throw new Exception("Comando no reconocido para asignación de valor.");
+            }
+        } catch (Exception e) {
+            System.err.println("Error al evaluar comando como valor: " + e.getMessage());
+            resultValue = Double.NaN; // Marcar como error
+        }
+
+        RESULT = resultValue;
+    
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("valor_comando",6, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 10: // comando ::= COMANDO LBRACKET lista_numeros RBRACKET SEMIC 
             {
               Object RESULT =null;
 		int cmdleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)).left;
@@ -292,11 +409,11 @@ class CUP$Parser$actions {
 		int numsright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
 		ArrayList<Double> nums = (ArrayList<Double>)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
 		
-        String output = "📌 Comando: " + cmd + "\n";
+        String output = "\n📌 Comando: " + cmd + "\n";
         output += "🔢 Entrada: " + nums + "\n";
 
         try {
-            double resultValue = Double.NaN; // Default to NaN in case no operation matches
+            double resultValue = Double.NaN;
             String formattedResult = "";
 
             switch (cmd.trim()) {
@@ -326,18 +443,23 @@ class CUP$Parser$actions {
                     break;
                 case "margen_ganancia":
                     if (nums.size() >= 2) {
-                        double ganancia = Operations.calculateGanancia(nums.get(0), nums.get(1));
-                        double margen = Operations.margen_ganancia(nums.get(0), nums.get(1));
-                        formattedResult = "El margen de ganancia es: " + parser.currencyFormat.format(ganancia) + "\n✅ El margen de ganancia porcentual es: " + parser.percentageFormat.format(margen / 100);
+                        // Aquí, margen_ganancia en Operations devuelve el porcentaje.
+                        // Calculamos la ganancia neta aquí para el formato.
+                        double salesA = nums.get(0);
+                        double salesC = nums.get(1);
+                        double gananciaNeta = salesA - salesC;
+                        resultValue = Operations.margen_ganancia(salesA, salesC); // Esto es el porcentaje
+                        formattedResult = "El margen de ganancia es: " + parser.currencyFormat.format(gananciaNeta) + "\n✅ El margen de ganancia porcentual es: " + parser.percentageFormat.format(resultValue / 100);
                     } else {
                         throw new Exception("Se necesitan al menos dos números para 'margen_ganancia'.");
                     }
                     break;
                 case "IVA":
                     if (nums.size() >= 1) {
-                        double ivaAmount = Operations.calculateIVAAmount(nums.get(0));
-                        resultValue = Operations.iva(nums.get(0)); // Store total with IVA
-                        formattedResult = "El IVA de " + parser.currencyFormat.format(nums.get(0)) + " son " + parser.currencyFormat.format(ivaAmount) + ". Dando un total de " + parser.currencyFormat.format(resultValue);
+                        double originalAmount = nums.get(0);
+                        resultValue = Operations.iva(originalAmount); // Esto es el total con IVA
+                        double ivaAmount = resultValue - originalAmount; // Calculamos el monto de IVA aquí
+                        formattedResult = "El IVA de " + parser.currencyFormat.format(originalAmount) + " son " + parser.currencyFormat.format(ivaAmount) + ". Dando un total de " + parser.currencyFormat.format(resultValue);
                     } else {
                         throw new Exception("Se necesita un número para 'IVA'.");
                     }
@@ -352,18 +474,20 @@ class CUP$Parser$actions {
                     break;
                 case "ISN":
                     if (nums.size() >= 1) {
-                        double isnAmount = Operations.calculateISNAmount(nums.get(0));
-                        resultValue = Operations.isn(nums.get(0)); // Store total with ISN
-                        formattedResult = "El ISN de " + parser.currencyFormat.format(nums.get(0)) + " son " + parser.currencyFormat.format(isnAmount) + ". Dando un total de " + parser.currencyFormat.format(resultValue);
+                        double originalAmount = nums.get(0);
+                        resultValue = Operations.isn(originalAmount); // Esto es el total con ISN
+                        double isnAmount = resultValue - originalAmount; // Calculamos el monto de ISN aquí
+                        formattedResult = "El ISN de " + parser.currencyFormat.format(originalAmount) + " son " + parser.currencyFormat.format(isnAmount) + ". Dando un total de " + parser.currencyFormat.format(resultValue);
                     } else {
                         throw new Exception("Se necesita un número para 'ISN'.");
                     }
                     break;
                 case "ISH":
                     if (nums.size() >= 1) {
-                        double ishAmount = Operations.calculateISHAmount(nums.get(0));
-                        resultValue = Operations.ish(nums.get(0)); // Store total with ISH
-                        formattedResult = "El ISH de " + parser.currencyFormat.format(nums.get(0)) + " son " + parser.currencyFormat.format(ishAmount) + ". Dando un total de " + parser.currencyFormat.format(resultValue);
+                        double originalAmount = nums.get(0);
+                        resultValue = Operations.ish(originalAmount); // Esto es el total con ISH
+                        double ishAmount = resultValue - originalAmount; // Calculamos el monto de ISH aquí
+                        formattedResult = "El ISH de " + parser.currencyFormat.format(originalAmount) + " son " + parser.currencyFormat.format(ishAmount) + ". Dando un total de " + parser.currencyFormat.format(resultValue);
                     } else {
                         throw new Exception("Se necesita un número para 'ISH'.");
                     }
@@ -389,11 +513,10 @@ class CUP$Parser$actions {
                     break;
             }
 
-            // Only append formattedResult if it was set by a recognized command
             if (!formattedResult.isEmpty()) {
                 output += "✅ " + formattedResult;
-            } else if (!Double.isNaN(resultValue)) { // If it was a recognized command that returned a number, but no specific format was applied yet
-                 output += "✅ Resultado: " + parser.currencyFormat.format(resultValue); // Fallback to currency format for generic numbers
+            } else if (!Double.isNaN(resultValue)) {
+                 output += "✅ Resultado: " + parser.currencyFormat.format(resultValue);
             } else {
                 output += "❌ Error: No se pudo calcular o el comando no devolvió un resultado formateado.";
             }
@@ -409,7 +532,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 9: // lista_numeros ::= expresion_numerica 
+          case 11: // lista_numeros ::= expresion_numerica 
             {
               ArrayList<Double> RESULT =null;
 		int nleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
@@ -425,7 +548,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 10: // lista_numeros ::= lista_numeros COMA expresion_numerica 
+          case 12: // lista_numeros ::= lista_numeros COMA expresion_numerica 
             {
               ArrayList<Double> RESULT =null;
 		int listaleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
